@@ -1,7 +1,7 @@
 package net.trajano.sonar.plugins.reverseproxyauth.test;
 
 import static org.mockito.Mockito.mock;
-import net.trajano.sonar.plugins.reverseproxyauth.ReverseProxyAuthenticator;
+import net.trajano.sonar.plugins.reverseproxyauth.internal.ReverseProxyAuthenticator;
 
 import org.junit.Test;
 import org.sonar.api.config.Settings;

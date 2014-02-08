@@ -1,7 +1,5 @@
-package net.trajano.sonar.plugins.reverseproxyauth;
+package net.trajano.sonar.plugins.reverseproxyauth.internal;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sonar.api.config.Settings;
 import org.sonar.api.security.Authenticator;
 
@@ -13,18 +11,27 @@ import org.sonar.api.security.Authenticator;
  */
 public class ReverseProxyAuthenticator extends Authenticator {
     /**
-     * Logger.
-     */
-    private static final Logger log = LoggerFactory
-            .getLogger(ReverseProxyAuthenticator.class);
-
-    /**
      * HTTP Header name containing the user name.
      */
     private final String headerName;
 
+    /**
+     * Host name to allow sonar executions. Authentication will always be
+     * accepted when accessing this host name from the
+     * {@link javax.servlet.http.HttpServletRequest}.
+     */
+    private final String localHost;
+
+    /**
+     * Constructs the authenticator with the specified {@link Settings}.
+     * 
+     * @param settings
+     *            settings
+     */
     public ReverseProxyAuthenticator(final Settings settings) {
+        super();
         headerName = settings.getString("reverseproxyauth.header.name");
+        localHost = settings.getString("reverseproxyauth.localhost");
     }
 
     /**
@@ -35,7 +42,9 @@ public class ReverseProxyAuthenticator extends Authenticator {
      */
     @Override
     public boolean doAuthenticate(final Context context) {
-        log.info("doAuthenticate");
+        if (localHost.equals(context.getRequest().getServerName())) {
+            return true;
+        }
         final String headerValue = context.getRequest().getHeader(headerName);
         return headerValue != null && !headerValue.trim().isEmpty();
     }

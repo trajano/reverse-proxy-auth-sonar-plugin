@@ -1,7 +1,8 @@
 package net.trajano.sonar.plugins.reverseproxyauth;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import net.trajano.sonar.plugins.reverseproxyauth.internal.ReverseProxyAuthUsersProvider;
+import net.trajano.sonar.plugins.reverseproxyauth.internal.ReverseProxyAuthenticator;
+
 import org.sonar.api.config.Settings;
 import org.sonar.api.security.Authenticator;
 import org.sonar.api.security.ExternalUsersProvider;
@@ -11,11 +12,6 @@ import org.sonar.api.security.SecurityRealm;
  * Realm.
  */
 public class ReverseProxyAuthRealm extends SecurityRealm {
-    /**
-     * Logger.
-     */
-    private static final Logger log = LoggerFactory
-            .getLogger(ReverseProxyAuthRealm.class);
     /**
      * Authenticator. Constructed on {@link #init()}.
      */
@@ -36,6 +32,7 @@ public class ReverseProxyAuthRealm extends SecurityRealm {
      *            injected settings
      */
     public ReverseProxyAuthRealm(final Settings settings) {
+        super();
         this.settings = settings;
     }
 
@@ -51,13 +48,11 @@ public class ReverseProxyAuthRealm extends SecurityRealm {
 
     @Override
     public ExternalUsersProvider getUsersProvider() {
-        log.info(usersProvider.toString());
         return usersProvider;
     }
 
     @Override
     public void init() {
-        log.info("init");
         authenticator = new ReverseProxyAuthenticator(settings);
         usersProvider = new ReverseProxyAuthUsersProvider(settings);
     }
