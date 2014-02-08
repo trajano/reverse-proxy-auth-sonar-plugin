@@ -3,8 +3,6 @@ package net.trajano.sonar.plugins.reverseproxyauth;
 import java.util.Collections;
 import java.util.List;
 
-import net.trajano.sonar.plugins.reverseproxyauth.internal.Extensions;
-
 import org.sonar.api.Properties;
 import org.sonar.api.Property;
 import org.sonar.api.SonarPlugin;

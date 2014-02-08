@@ -1,8 +1,5 @@
 package net.trajano.sonar.plugins.reverseproxyauth;
 
-import net.trajano.sonar.plugins.reverseproxyauth.internal.ReverseProxyAuthUsersProvider;
-import net.trajano.sonar.plugins.reverseproxyauth.internal.ReverseProxyAuthenticator;
-
 import org.sonar.api.config.Settings;
 import org.sonar.api.security.Authenticator;
 import org.sonar.api.security.ExternalUsersProvider;

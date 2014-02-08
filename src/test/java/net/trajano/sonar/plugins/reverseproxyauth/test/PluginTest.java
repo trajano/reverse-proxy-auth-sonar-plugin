@@ -2,10 +2,10 @@ package net.trajano.sonar.plugins.reverseproxyauth.test;
 
 import java.util.List;
 
+import net.trajano.sonar.plugins.reverseproxyauth.Extensions;
 import net.trajano.sonar.plugins.reverseproxyauth.ReverseProxyAuthPlugin;
 import net.trajano.sonar.plugins.reverseproxyauth.ReverseProxyAuthRealm;
 import net.trajano.sonar.plugins.reverseproxyauth.ValidateRedirectionFilter;
-import net.trajano.sonar.plugins.reverseproxyauth.internal.Extensions;
 
 import org.junit.Assert;
 import org.junit.Test;
