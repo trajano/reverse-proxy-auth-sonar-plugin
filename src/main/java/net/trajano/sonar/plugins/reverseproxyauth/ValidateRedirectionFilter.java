@@ -13,21 +13,13 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sonar.api.web.ServletFilter;
 
 /**
  * This filter redirects the current request to
  * <code>/reverseproxyauth/validate</code>.
  */
-public class ReverseProxyAuthServletFilter extends ServletFilter {
-    /**
-     * Logger.
-     */
-    private static final Logger log = LoggerFactory
-            .getLogger(ReverseProxyAuthServletFilter.class);
-
+public class ValidateRedirectionFilter extends ServletFilter {
     /**
      * Servlet context.
      */
@@ -42,9 +34,11 @@ public class ReverseProxyAuthServletFilter extends ServletFilter {
     }
 
     /**
-     * Perform the redirection and handle the X_FORWARDED_PROTO header as
-     * needed. {@inheritDoc}
+     * Perform the redirection and handle the <code>X_FORWARDED_PROTO</code>
+     * header as needed. Warnings are suppressed as Sonar treats multiple
+     * exceptions as technical debt. {@inheritDoc}
      */
+    @SuppressWarnings("all")
     @Override
     public void doFilter(final ServletRequest request,
             final ServletResponse response, final FilterChain chain)
@@ -65,7 +59,6 @@ public class ReverseProxyAuthServletFilter extends ServletFilter {
             } catch (final URISyntaxException e) {
                 throw new ServletException(e);
             }
-            log.info(newT.toASCIIString());
             ((HttpServletResponse) response).sendRedirect(newT.toASCIIString());
 
         }

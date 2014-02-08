@@ -16,6 +16,16 @@ import org.sonar.api.SonarPlugin;
         @Property(key = "reverseproxyauth.header.name", name = "Header Name", defaultValue = "X-Forwarded-User"),
         @Property(key = "reverseproxyauth.localhost", name = "Hostname to allow Sonar executions", defaultValue = "localhost") })
 public class ReverseProxyAuthPlugin extends SonarPlugin {
+    /**
+     * Plugin key.
+     */
+    public static final String KEY = "reverseproxyauth";
+
+    /**
+     * Calls the extension provider.
+     * 
+     * @return a list containing only the extension provider class.
+     */
     @SuppressWarnings("rawtypes")
     @Override
     public List<Class> getExtensions() {

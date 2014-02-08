@@ -36,21 +36,36 @@ public class ReverseProxyAuthRealm extends SecurityRealm {
         this.settings = settings;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Authenticator doGetAuthenticator() {
         return authenticator;
     }
 
+    /**
+     * {@inheritDoc}
+     * 
+     * @return {@link ReverseProxyAuthPlugin#KEY}
+     */
     @Override
     public String getName() {
-        return "reverseproxyauth";
+        return ReverseProxyAuthPlugin.KEY;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ExternalUsersProvider getUsersProvider() {
         return usersProvider;
     }
 
+    /**
+     * Instantiates for the {@link Authenticator} and the
+     * {@link ExternalUsersProvider}.
+     */
     @Override
     public void init() {
         authenticator = new ReverseProxyAuthenticator(settings);
