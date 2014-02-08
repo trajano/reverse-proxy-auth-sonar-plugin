@@ -6,6 +6,7 @@ import net.trajano.sonar.plugins.reverseproxyauth.ReverseProxyAuthPlugin;
 import net.trajano.sonar.plugins.reverseproxyauth.ReverseProxyAuthRealm;
 import net.trajano.sonar.plugins.reverseproxyauth.ValidateRedirectionFilter;
 
+import org.sonar.api.Extension;
 import org.sonar.api.ExtensionProvider;
 import org.sonar.api.ServerExtension;
 import org.sonar.api.config.Settings;
@@ -37,11 +38,15 @@ public final class Extensions extends ExtensionProvider implements
 
     /**
      * Provides the relevant extensions if the security realm is defined.
+     * Returns an empty list if there realm is not set to prevent class not
+     * found errors on the sonar runners.
+     * 
+     * @return list of extensions that the plugin provides.
      */
-    @SuppressWarnings("rawtypes")
     @Override
-    public Object provide() {
-        final List<Class> extensions = Lists.newArrayList();
+    public List<Class<? extends Extension>> provide() {
+        final List<Class<? extends Extension>> extensions = Lists
+                .newArrayList();
         if (ReverseProxyAuthPlugin.KEY.equalsIgnoreCase(settings
                 .getString("sonar.security.realm"))) {
             extensions.add(ReverseProxyAuthRealm.class);
