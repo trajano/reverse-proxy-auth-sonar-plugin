@@ -1,0 +1,8 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./Extensions.html" title="net.trajano.sonar.plugins.reverseproxyauth.Extensions" alt="" coords="119,120,204,147"/>
+<area shape="rect" id="node1" href="./Extensions.html" title="&lt;TABLE&gt;" alt="" coords="108,109,215,157"/>
+<area shape="rect" id="node2_1" href="http://java.sun.com/j2se/1.4.2/docs/api/org/sonar/api/ExtensionProvider.html" title="org.sonar.api.ExtensionProvider" alt="" coords="16,20,141,47"/>
+<area shape="rect" id="node2" href="http://java.sun.com/j2se/1.4.2/docs/api/org/sonar/api/ExtensionProvider.html" title="&lt;TABLE&gt;" alt="" coords="5,9,152,57"/>
+<area shape="rect" id="node3_2" href="http://java.sun.com/j2se/1.4.2/docs/api/org/sonar/api/ServerExtension.html" title="org.sonar.api.ServerExtension" alt="" coords="187,11,301,55"/>
+<area shape="rect" id="node3" href="http://java.sun.com/j2se/1.4.2/docs/api/org/sonar/api/ServerExtension.html" title="&lt;TABLE&gt;" alt="" coords="176,6,312,61"/>
+</map>

@@ -1,0 +1,14 @@
+<map id="G" name="G">
+<area shape="rect" id="node1_0" href="./ValidateRedirectionFilter.html" title="net.trajano.sonar.plugins.reverseproxyauth.ValidateRedirectionFilter" alt="" coords="15,16,177,43"/>
+<area shape="rect" id="node1" href="./ValidateRedirectionFilter.html" title="&lt;TABLE&gt;" alt="" coords="5,5,187,53"/>
+<area shape="rect" id="node2_1" href="./ReverseProxyAuthUsersProvider.html" title="net.trajano.sonar.plugins.reverseproxyauth.ReverseProxyAuthUsersProvider" alt="" coords="223,16,431,43"/>
+<area shape="rect" id="node2" href="./ReverseProxyAuthUsersProvider.html" title="&lt;TABLE&gt;" alt="" coords="212,5,441,53"/>
+<area shape="rect" id="node3_2" href="./ReverseProxyAuthRealm.html" title="net.trajano.sonar.plugins.reverseproxyauth.ReverseProxyAuthRealm" alt="" coords="476,16,641,43"/>
+<area shape="rect" id="node3" href="./ReverseProxyAuthRealm.html" title="&lt;TABLE&gt;" alt="" coords="465,5,652,53"/>
+<area shape="rect" id="node4_3" href="./ReverseProxyAuthPlugin.html" title="net.trajano.sonar.plugins.reverseproxyauth.ReverseProxyAuthPlugin" alt="" coords="687,16,851,43"/>
+<area shape="rect" id="node4" href="./ReverseProxyAuthPlugin.html" title="&lt;TABLE&gt;" alt="" coords="677,5,862,53"/>
+<area shape="rect" id="node5_4" href="./ReverseProxyAuthenticator.html" title="net.trajano.sonar.plugins.reverseproxyauth.ReverseProxyAuthenticator" alt="" coords="897,16,1074,43"/>
+<area shape="rect" id="node5" href="./ReverseProxyAuthenticator.html" title="&lt;TABLE&gt;" alt="" coords="886,5,1085,53"/>
+<area shape="rect" id="node6_5" href="./Extensions.html" title="net.trajano.sonar.plugins.reverseproxyauth.Extensions" alt="" coords="1120,16,1205,43"/>
+<area shape="rect" id="node6" href="./Extensions.html" title="&lt;TABLE&gt;" alt="" coords="1109,5,1216,53"/>
+</map>
