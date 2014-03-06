@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ValidateRedirectionFilter.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Reverse Proxy Authenticator</a> &gt; <a href="index.source.html" class="el_package">net.trajano.sonar.plugins.reverseproxyauth</a> &gt; <span class="el_source">ValidateRedirectionFilter.java</span></div><h1>ValidateRedirectionFilter.java</h1><pre class="source lang-java linenums">package net.trajano.sonar.plugins.reverseproxyauth;
+
+import java.io.IOException;
+
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.sonar.api.web.ServletFilter;
+
+/**
+ * This filter redirects the current request to
+ * &lt;code&gt;/reverseproxyauth/validate&lt;/code&gt;.
+ */
+<span class="fc" id="L19">public class ValidateRedirectionFilter extends ServletFilter {</span>
+    /**
+     * Does nothing. {@inheritDoc}
+     */
+    @Override
+    public void destroy() {
+        // does nothing.
+<span class="fc" id="L26">    }</span>
+
+    /**
+     * Perform the redirection and handle the &lt;code&gt;X_FORWARDED_PROTO&lt;/code&gt;
+     * header as needed. Warnings are suppressed as Sonar treats multiple
+     * exceptions as technical debt. {@inheritDoc}
+     */
+    @Override
+    public void doFilter(final ServletRequest request,
+            final ServletResponse response, final FilterChain chain)
+            throws IOException {
+<span class="fc" id="L37">        final HttpServletRequest req = (HttpServletRequest) request;</span>
+<span class="fc" id="L38">        final StringBuilder url = new StringBuilder(req.getRequestURL()</span>
+                .toString());
+<span class="fc" id="L40">        url.replace(url.length() - 13, url.length(),</span>
+                &quot;/reverseproxyauth/validate&quot;);
+
+<span class="fc" id="L43">        final String forwardedProtocol = req.getHeader(&quot;X_FORWARDED_PROTO&quot;);</span>
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        if (forwardedProtocol != null) {</span>
+<span class="fc" id="L45">            url.replace(0, url.indexOf(&quot;:&quot;), forwardedProtocol);</span>
+        }
+<span class="fc" id="L47">        ((HttpServletResponse) response).sendRedirect(url.toString());</span>
+<span class="fc" id="L48">    }</span>
+
+    /**
+     * Match against &lt;code&gt;/sessions/new&lt;/code&gt;. {@inheritDoc}
+     */
+    @Override
+    public UrlPattern doGetPattern() {
+<span class="fc" id="L55">        return UrlPattern.create(&quot;/sessions/new&quot;);</span>
+    }
+
+    /**
+     * Does nothing. {@inheritDoc}
+     */
+    @Override
+    public void init(final FilterConfig filterConfig) throws ServletException {
+        // does nothing.
+<span class="fc" id="L64">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.201312101107</span></div></body></html>

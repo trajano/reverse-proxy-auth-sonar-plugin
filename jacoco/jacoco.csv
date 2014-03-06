@@ -1,0 +1,7 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+Reverse Proxy Authenticator,net.trajano.sonar.plugins.reverseproxyauth,ReverseProxyAuthUsersProvider,0,46,0,6,0,12,0,5,0,2
+Reverse Proxy Authenticator,net.trajano.sonar.plugins.reverseproxyauth,ReverseProxyAuthRealm,0,29,0,0,0,9,0,5,0,5
+Reverse Proxy Authenticator,net.trajano.sonar.plugins.reverseproxyauth,ReverseProxyAuthenticator,0,38,0,6,0,8,0,5,0,2
+Reverse Proxy Authenticator,net.trajano.sonar.plugins.reverseproxyauth,Extensions,0,25,0,2,0,8,0,3,0,2
+Reverse Proxy Authenticator,net.trajano.sonar.plugins.reverseproxyauth,ValidateRedirectionFilter,0,48,0,2,0,12,0,6,0,5
+Reverse Proxy Authenticator,net.trajano.sonar.plugins.reverseproxyauth,ReverseProxyAuthPlugin,0,6,0,0,0,2,0,2,0,2

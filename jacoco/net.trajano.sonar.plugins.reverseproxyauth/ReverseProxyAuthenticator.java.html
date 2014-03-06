@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ReverseProxyAuthenticator.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Reverse Proxy Authenticator</a> &gt; <a href="index.source.html" class="el_package">net.trajano.sonar.plugins.reverseproxyauth</a> &gt; <span class="el_source">ReverseProxyAuthenticator.java</span></div><h1>ReverseProxyAuthenticator.java</h1><pre class="source lang-java linenums">package net.trajano.sonar.plugins.reverseproxyauth;
+
+import org.sonar.api.config.Settings;
+import org.sonar.api.security.Authenticator;
+
+/**
+ * Implementation of the authenticator that assumes the value in the header is a
+ * valid user.
+ * 
+ * @author Archimedes Trajano
+ */
+public class ReverseProxyAuthenticator extends Authenticator {
+    /**
+     * HTTP Header name containing the user name.
+     */
+    private final String headerName;
+
+    /**
+     * Host name to allow sonar executions. Authentication will always be
+     * accepted when accessing this host name from the
+     * {@link javax.servlet.http.HttpServletRequest}.
+     */
+    private final String localHost;
+
+    /**
+     * Constructs the authenticator with the specified {@link Settings}.
+     * 
+     * @param settings
+     *            settings
+     */
+    public ReverseProxyAuthenticator(final Settings settings) {
+<span class="fc" id="L32">        super();</span>
+<span class="fc" id="L33">        headerName = settings.getString(&quot;reverseproxyauth.header.name&quot;);</span>
+<span class="fc" id="L34">        localHost = settings.getString(&quot;reverseproxyauth.localhost&quot;);</span>
+<span class="fc" id="L35">    }</span>
+
+    /**
+     * Returns &lt;code&gt;true&lt;/code&gt; if the header is defined and has a value.
+     * {@inheritDoc}
+     * 
+     * @return &lt;code&gt;true&lt;/code&gt; if the header is defined and has a value.
+     */
+    @Override
+    public boolean doAuthenticate(final Context context) {
+<span class="fc bfc" id="L45" title="All 2 branches covered.">        if (localHost.equals(context.getRequest().getServerName())) {</span>
+<span class="fc" id="L46">            return true;</span>
+        }
+<span class="fc" id="L48">        final String headerValue = context.getRequest().getHeader(headerName);</span>
+<span class="fc bfc" id="L49" title="All 4 branches covered.">        return headerValue != null &amp;&amp; !headerValue.trim().isEmpty();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.6.4.201312101107</span></div></body></html>
