@@ -17,7 +17,7 @@ public class PluginTest {
     public void testExtensionProviderWhenRealmIsNotSet() {
         final Settings settings = new Settings();
 
-        final List<?> list = (List<?>) new Extensions(settings).provide();
+        final List<?> list = new Extensions(settings).provide();
         Assert.assertTrue(list.isEmpty());
     }
 
@@ -27,9 +27,8 @@ public class PluginTest {
         settings.appendProperty("sonar.security.realm",
                 ReverseProxyAuthPlugin.KEY);
 
-        @SuppressWarnings("unchecked")
-        final List<Class<? extends Extension>> list = (List<Class<? extends Extension>>) new Extensions(
-                settings).provide();
+        final List<Class<? extends Extension>> list = new Extensions(settings)
+                .provide();
         Assert.assertTrue(list.contains(ReverseProxyAuthRealm.class));
         Assert.assertTrue(list.contains(ValidateRedirectionFilter.class));
     }
