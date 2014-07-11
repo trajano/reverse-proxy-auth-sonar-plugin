@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>net.trajano</groupId>
         <artifactId>trajano</artifactId>
-        <version>9-SNAPSHOT</version>
+        <version>9</version>
     </parent>
     <groupId>net.trajano.sonar.plugins</groupId>
     <artifactId>reverse-proxy-auth-sonar-plugin</artifactId>
@@ -31,19 +31,20 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>org.codehaus.sonar</groupId>
-            <artifactId>sonar-plugin-api</artifactId>
-            <version>4.1.1</version>
-        </dependency>
-        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.6</version>
+            <version>1.7.7</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
             <version>2.5</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.sonar</groupId>
+            <artifactId>sonar-plugin-api</artifactId>
+            <version>4.3</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -64,7 +65,7 @@
             <plugins>
                 <plugin>
                     <artifactId>maven-checkstyle-plugin</artifactId>
-                    <version>2.12</version>
+                    <version>2.12.1</version>
                     <configuration>
                         <linkXRef>true</linkXRef>
                         <configLocation>config/checkstyle-configuration.xml</configLocation>
@@ -190,44 +191,12 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>findbugs-maven-plugin</artifactId>
-                    <version>2.5.3</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.eclipse.m2e</groupId>
-                    <artifactId>lifecycle-mapping</artifactId>
-                    <version>1.0.0</version>
-                    <configuration>
-                        <lifecycleMappingMetadata>
-                            <pluginExecutions>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>
-											org.codehaus.sonar
-										</groupId>
-                                        <artifactId>
-											sonar-packaging-maven-plugin
-										</artifactId>
-                                        <versionRange>
-											[1.9,)
-										</versionRange>
-                                        <goals>
-                                            <goal>
-												check-dependencies
-											</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <ignore/>
-                                    </action>
-                                </pluginExecution>
-                            </pluginExecutions>
-                        </lifecycleMappingMetadata>
-                    </configuration>
+                    <version>2.5.4</version>
                 </plugin>
                 <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>0.7.0.201403182114</version>
+                    <version>0.7.1.201405082137</version>
                     <executions>
                         <execution>
                             <goals>
@@ -259,7 +228,7 @@
             <plugin>
                 <groupId>org.codehaus.sonar</groupId>
                 <artifactId>sonar-packaging-maven-plugin</artifactId>
-                <version>1.9</version>
+                <version>1.12.1</version>
                 <extensions>true</extensions>
                 <configuration>
                     <pluginKey>reverseproxyauth</pluginKey>
@@ -315,6 +284,42 @@
                 </property>
             </activation>
             <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.eclipse.m2e</groupId>
+                            <artifactId>lifecycle-mapping</artifactId>
+                            <version>1.0.0</version>
+                            <configuration>
+                                <lifecycleMappingMetadata>
+                                    <pluginExecutions>
+                                        <pluginExecution>
+                                            <pluginExecutionFilter>
+                                                <groupId>
+											org.codehaus.sonar
+										</groupId>
+                                                <artifactId>
+											sonar-packaging-maven-plugin
+										</artifactId>
+                                                <versionRange>
+											[1.9,)
+										</versionRange>
+                                                <goals>
+                                                    <goal>
+												check-dependencies
+											</goal>
+                                                </goals>
+                                            </pluginExecutionFilter>
+                                            <action>
+                                                <ignore/>
+                                            </action>
+                                        </pluginExecution>
+                                    </pluginExecutions>
+                                </lifecycleMappingMetadata>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
                 <plugins>
                     <plugin>
                         <artifactId>maven-checkstyle-plugin</artifactId>
