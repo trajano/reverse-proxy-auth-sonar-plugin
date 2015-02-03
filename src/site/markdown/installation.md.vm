@@ -1,0 +1,14 @@
+Installation Guide
+==================
+
+To enable this plugin, copy reverse-proxy-auth-sonar-plugin-${project.version} to
+the `$$SONAR_DIR/extensions/plugins` folder.   Then you need to set it as the
+security realm in the `$$SONAR_DIR/conf/sonar.properties` file by adding
+
+    sonar.security.realm=reverseproxyauth
+
+To ensure that no new users are created based on the presence of a valid forward
+just add the following
+
+    sonar.authenticator.createUsers=false
+    sonar.forceAuthentication=true
