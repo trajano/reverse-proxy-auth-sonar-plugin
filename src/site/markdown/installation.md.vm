@@ -1,9 +1,9 @@
 Installation Guide
 ==================
 
-To enable this plugin, copy reverse-proxy-auth-sonar-plugin-${project.version} to
-the `$$SONAR_DIR/extensions/plugins` folder.   Then you need to set it as the
-security realm in the `$$SONAR_DIR/conf/sonar.properties` file by adding
+To enable this plugin, copy `reverse-proxy-auth-sonar-plugin-${project.version}.jar` to
+the `$SONAR_DIR/extensions/plugins` folder.   Then you need to set it as the
+security realm in the `$SONAR_DIR/conf/sonar.properties` file by adding
 
     sonar.security.realm=reverseproxyauth
 
