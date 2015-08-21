@@ -39,7 +39,7 @@ public class ReverseProxyAuthUsersProvider extends ExternalUsersProvider {
     public UserDetails doGetUserDetails(final Context context) {
 
         final UserDetails userDetails = new UserDetails();
-        if (!localHost.equals(context.getRequest().getServerName())) {
+        if (localHost.equals(context.getRequest().getServerName())) {
             final String headerValue = context.getRequest().getHeader(
                     headerName);
             if (headerValue == null || headerValue.trim().isEmpty()) {
