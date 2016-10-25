@@ -4,19 +4,20 @@
     <parent>
         <groupId>net.trajano</groupId>
         <artifactId>trajano</artifactId>
-        <version>10</version>
+        <version>13-SNAPSHOT</version>
     </parent>
     <groupId>net.trajano.sonar.plugins</groupId>
     <artifactId>reverse-proxy-auth-sonar-plugin</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>6.0.0-SNAPSHOT</version>
     <packaging>sonar-plugin</packaging>
     <name>Reverse Proxy Authenticator</name>
     <description>Reverse Proxy Authenticator plugin for Sonar.</description>
     <url>http://site.trajano.net/reverse-proxy-auth-sonar-plugin</url>
     <scm>
-        <connection>scm:git:https://github.com/trajano/${project.artifactId}</connection>
-        <developerConnection>scm:git:ssh://git@github.com/trajano/${project.artifactId}.git</developerConnection>
+        <connection>scm:git:https://github.com/trajano/reverse-proxy-auth-sonar-plugin</connection>
+        <developerConnection>scm:git:ssh://git@github.com/trajano/reverse-proxy-auth-sonar-plugin.git</developerConnection>
         <tag>HEAD</tag>
+        <url>https://github.com/trajano/reverse-proxy-auth-sonar-plugin</url>
     </scm>
     <distributionManagement>
         <site>
@@ -26,7 +27,7 @@
         </site>
     </distributionManagement>
     <properties>
-        <jdk.version>1.6</jdk.version>
+        <jdk.version>1.8</jdk.version>
         <surefire.version>2.17</surefire.version>
     </properties>
     <dependencies>
@@ -34,18 +35,6 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>1.7.7</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>2.5</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.codehaus.sonar</groupId>
-            <artifactId>sonar-plugin-api</artifactId>
-            <version>4.3</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>net.trajano.commons</groupId>
@@ -59,23 +48,25 @@
             <version>1.9.5</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.sonarsource.sonarqube</groupId>
+            <artifactId>sonar-plugin-api</artifactId>
+            <version>6.0</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
     <build>
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <artifactId>maven-checkstyle-plugin</artifactId>
-                    <version>2.12.1</version>
-                    <configuration>
-                        <linkXRef>true</linkXRef>
-                        <configLocation>config/checkstyle-configuration.xml</configLocation>
-                        <includes>**/*.java,**/*.properties</includes>
-                        <excludes>target/**,src/test/**</excludes>
-                    </configuration>
-                </plugin>
-                <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.1</version>
+                    <version>3.5.1</version>
                     <configuration>
                         <source>${jdk.version}</source>
                         <target>${jdk.version}</target>
@@ -114,54 +105,6 @@
                     </executions>
                 </plugin>
                 <plugin>
-                    <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>2.9.1</version>
-                    <executions>
-                        <execution>
-                            <id>attach-javadoc</id>
-                            <phase>package</phase>
-                            <goals>
-                                <goal>jar</goal>
-                                <goal>test-jar</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                    <configuration>
-                        <detectJavaApiLink>true</detectJavaApiLink>
-                        <detectLinks>false</detectLinks>
-                        <detectOfflineLinks>false</detectOfflineLinks>
-                        <quiet>true</quiet>
-                        <useStandardDocletOptions>true</useStandardDocletOptions>
-                        <show>private</show>
-                        <doclet>org.umlgraph.doclet.UmlGraphDoc</doclet>
-                        <docletArtifact>
-                            <groupId>org.umlgraph</groupId>
-                            <artifactId>umlgraph</artifactId>
-                            <version>5.6.6</version>
-                        </docletArtifact>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-jxr-plugin</artifactId>
-                    <version>2.4</version>
-                    <configuration>
-                        <linkJavadoc>true</linkJavadoc>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-pmd-plugin</artifactId>
-                    <version>3.1</version>
-                    <configuration>
-                        <rulesets>
-                            <ruleset>/config/pmd-rules.xml</ruleset>
-                        </rulesets>
-                    </configuration>
-                </plugin>
-                <plugin>
-                    <artifactId>maven-resources-plugin</artifactId>
-                    <version>2.6</version>
-                </plugin>
-                <plugin>
                     <artifactId>maven-source-plugin</artifactId>
                     <version>2.2.1</version>
                     <executions>
@@ -191,19 +134,12 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>findbugs-maven-plugin</artifactId>
-                    <version>2.5.4</version>
+                    <version>3.0.4</version>
                 </plugin>
                 <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>0.7.1.201405082137</version>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>prepare-agent</goal>
-                            </goals>
-                        </execution>
-                    </executions>
+                    <version>0.7.7.201606060606</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -226,9 +162,9 @@
                 <extensions>true</extensions>
             </plugin>
             <plugin>
-                <groupId>org.codehaus.sonar</groupId>
+                <groupId>org.sonarsource.sonar-packaging-maven-plugin</groupId>
                 <artifactId>sonar-packaging-maven-plugin</artifactId>
-                <version>1.12.1</version>
+                <version>1.17</version>
                 <extensions>true</extensions>
                 <configuration>
                     <pluginKey>reverseproxyauth</pluginKey>
@@ -240,13 +176,6 @@
                 <artifactId>jacoco-maven-plugin</artifactId>
             </plugin>
         </plugins>
-        <extensions>
-            <extension>
-                <groupId>net.trajano</groupId>
-                <artifactId>coding-standards</artifactId>
-                <version>1.1.2</version>
-            </extension>
-        </extensions>
     </build>
     <reporting>
         <plugins>
@@ -260,14 +189,7 @@
                 <artifactId>maven-jxr-plugin</artifactId>
             </plugin>
             <plugin>
-                <artifactId>maven-pmd-plugin</artifactId>
-            </plugin>
-            <plugin>
                 <artifactId>maven-surefire-report-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>findbugs-maven-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -295,19 +217,11 @@
                                     <pluginExecutions>
                                         <pluginExecution>
                                             <pluginExecutionFilter>
-                                                <groupId>
-											org.codehaus.sonar
-										</groupId>
-                                                <artifactId>
-											sonar-packaging-maven-plugin
-										</artifactId>
-                                                <versionRange>
-											[1.9,)
-										</versionRange>
+                                                <groupId>org.codehaus.sonar</groupId>
+                                                <artifactId>sonar-packaging-maven-plugin</artifactId>
+                                                <versionRange>[1.9,)</versionRange>
                                                 <goals>
-                                                    <goal>
-												check-dependencies
-											</goal>
+                                                    <goal>check-dependencies</goal>
                                                 </goals>
                                             </pluginExecutionFilter>
                                             <action>
@@ -322,53 +236,12 @@
                 </pluginManagement>
                 <plugins>
                     <plugin>
-                        <artifactId>maven-checkstyle-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>check</id>
-                                <phase>compile</phase>
-                                <goals>
-                                    <goal>check</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <artifactId>maven-pmd-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>pmd</id>
-                                <phase>compile</phase>
-                                <goals>
-                                    <goal>check</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
                         <groupId>net.trajano.mojo</groupId>
                         <artifactId>m2e-codestyle-maven-plugin</artifactId>
-                        <version>1.1.0</version>
                         <executions>
                             <execution>
                                 <goals>
                                     <goal>configure</goal>
-                                </goals>
-                                <configuration>
-                                    <codeStyleBaseUrl>codestyle</codeStyleBaseUrl>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>findbugs-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>findbugs</id>
-                                <phase>compile</phase>
-                                <goals>
-                                    <goal>findbugs</goal>
                                 </goals>
                             </execution>
                         </executions>
