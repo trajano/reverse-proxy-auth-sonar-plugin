@@ -1,32 +1,35 @@
 package net.trajano.sonar.plugins.reverseproxyauth;
 
-import java.util.Collections;
-import java.util.List;
-
+import org.sonar.api.Plugin;
 import org.sonar.api.Properties;
 import org.sonar.api.Property;
-import org.sonar.api.SonarPlugin;
 
 /**
  * Plugin entry point.
  */
 @Properties({
-        @Property(key = "reverseproxyauth.header.name", name = "Header Name", defaultValue = "X-Forwarded-User"),
-        @Property(key = "reverseproxyauth.localhost", name = "Hostname to allow Sonar executions", defaultValue = "localhost") })
-public class ReverseProxyAuthPlugin extends SonarPlugin {
+    @Property(key = ReverseProxyAuthSettings.HEADER_NAME,
+        name = "Header Name",
+        defaultValue = "X-Forwarded-User"),
+    @Property(key = ReverseProxyAuthSettings.LOCALHOST,
+        name = "Hostname to allow Sonar executions",
+        defaultValue = "localhost")
+})
+public class ReverseProxyAuthPlugin implements
+    Plugin {
+
     /**
      * Plugin key.
      */
     public static final String KEY = "reverseproxyauth";
 
-    /**
-     * Calls the extension provider.
-     * 
-     * @return a list containing only the extension provider class.
-     */
-    @SuppressWarnings("rawtypes")
     @Override
-    public List<Class> getExtensions() {
-        return Collections.<Class> singletonList(Extensions.class);
+    public void define(final Context context) {
+
+        context.addExtension(ReverseProxyAuthSettings.class);
+        context.addExtension(ReverseProxyAuthRealm.class);
+        context.addExtension(ReverseProxyAuthUsersIdentityProvider.class);
+        context.addExtension(ValidateRedirectionFilter.class);
     }
+
 }

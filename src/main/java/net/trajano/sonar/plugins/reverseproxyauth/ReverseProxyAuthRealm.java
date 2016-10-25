@@ -1,23 +1,18 @@
 package net.trajano.sonar.plugins.reverseproxyauth;
 
-import org.sonar.api.config.Settings;
-import org.sonar.api.security.Authenticator;
 import org.sonar.api.security.ExternalUsersProvider;
 import org.sonar.api.security.SecurityRealm;
 
 /**
- * Realm.
+ * The security realm. Does nothing for the most part but will allow the use of
+ * it in "sonar.security.realm".
  */
 public class ReverseProxyAuthRealm extends SecurityRealm {
-    /**
-     * Authenticator. Constructed on {@link #init()}.
-     */
-    private Authenticator authenticator;
 
     /**
      * Settings injected.
      */
-    private final Settings settings;
+    private final ReverseProxyAuthSettings settings;
 
     /**
      * Users provider. Constructed on {@link #init()}.
@@ -26,28 +21,20 @@ public class ReverseProxyAuthRealm extends SecurityRealm {
 
     /**
      * @param settings
-     *            injected settings
+     *            injected settings.
      */
-    public ReverseProxyAuthRealm(final Settings settings) {
-        super();
+    public ReverseProxyAuthRealm(final ReverseProxyAuthSettings settings) {
         this.settings = settings;
     }
 
     /**
      * {@inheritDoc}
-     */
-    @Override
-    public Authenticator doGetAuthenticator() {
-        return authenticator;
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
+     *
      * @return {@link ReverseProxyAuthPlugin#KEY}
      */
     @Override
     public String getName() {
+
         return ReverseProxyAuthPlugin.KEY;
     }
 
@@ -56,16 +43,17 @@ public class ReverseProxyAuthRealm extends SecurityRealm {
      */
     @Override
     public ExternalUsersProvider getUsersProvider() {
+
         return usersProvider;
     }
 
     /**
-     * Instantiates for the {@link Authenticator} and the
-     * {@link ExternalUsersProvider}.
+     * Instantiates the {@link ExternalUsersProvider}.
      */
     @Override
     public void init() {
-        authenticator = new ReverseProxyAuthenticator(settings);
+
         usersProvider = new ReverseProxyAuthUsersProvider(settings);
     }
+
 }

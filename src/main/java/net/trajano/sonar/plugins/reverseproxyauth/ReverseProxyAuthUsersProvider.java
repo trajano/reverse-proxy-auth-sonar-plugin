@@ -10,39 +10,36 @@ import org.sonar.api.security.UserDetails;
  * .
  */
 public class ReverseProxyAuthUsersProvider extends ExternalUsersProvider {
-    /**
-     * HTTP Header name containing the user name.
-     */
-    private final String headerName;
 
     /**
-     * Host name to allow sonar executions. Authentication will always be
-     * accepted when accessing this host name from the
-     * {@link javax.servlet.http.HttpServletRequest}.
+     * Settings.
      */
-    private final String localHost;
+    private final ReverseProxyAuthSettings settings;
 
     /**
      * Constructs the {@link ExternalUsersProvider} with the specified
      * {@link Settings}.
-     * 
+     *
      * @param settings
-     *            settings
+     *            injected settings
      */
-    public ReverseProxyAuthUsersProvider(final Settings settings) {
+    public ReverseProxyAuthUsersProvider(final ReverseProxyAuthSettings settings) {
         super();
-        headerName = settings.getString("reverseproxyauth.header.name");
-        localHost = settings.getString("reverseproxyauth.localhost");
+        this.settings = settings;
     }
 
+    /**
+     * Obtains the user details from the header. Will return <code>null</code>
+     * if it cannot be obtained. However, if it is localhost it will return an
+     * empty {@link UserDetails} structure. {@inheritDoc}
+     */
     @Override
     public UserDetails doGetUserDetails(final Context context) {
 
         final UserDetails userDetails = new UserDetails();
-        if (!localHost.equals(context.getRequest().getServerName())) {
-            final String headerValue = context.getRequest().getHeader(
-                    headerName);
-            if (headerValue == null || headerValue.trim().isEmpty()) {
+        if (!settings.isLocalHost(context.getRequest())) {
+            final String headerValue = settings.getUserNameFromHeader(context.getRequest());
+            if (headerValue == null) {
                 return null;
             }
             userDetails.setEmail(headerValue);
