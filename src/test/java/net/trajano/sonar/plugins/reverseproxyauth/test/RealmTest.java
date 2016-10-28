@@ -1,6 +1,7 @@
 package net.trajano.sonar.plugins.reverseproxyauth.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -12,6 +13,7 @@ import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -34,6 +36,20 @@ import net.trajano.sonar.plugins.reverseproxyauth.ReverseProxyAuthUsersIdentityP
  * Tests the realm.
  */
 public class RealmTest {
+
+    /**
+     * Tests when the header is missing.
+     */
+    @Test
+    public void testMissingLocalhostParameter() {
+
+        final Settings settings = new Settings();
+        settings.appendProperty("reverseproxyauth.header.name",
+            "X-Forwarded-User");
+
+        final ReverseProxyAuthSettings reverseProxyAuthSettings = new ReverseProxyAuthSettings(settings);
+        assertFalse(reverseProxyAuthSettings.isLocalHost(mock(ServletRequest.class)));
+    }
 
     /**
      * Tests the typical authentication process.
