@@ -95,7 +95,8 @@ public class ReverseProxyAuthSettings {
      */
     public boolean isLocalHost(@Nonnull final ServletRequest request) {
 
-        return settings.getString(LOCALHOST) != null && settings.getString(LOCALHOST).equals(request.getServerName());
+        final String localhostValue = settings.getString(LOCALHOST);
+        return localhostValue != null && localhostValue.equals(request.getServerName());
     }
 
     /**
