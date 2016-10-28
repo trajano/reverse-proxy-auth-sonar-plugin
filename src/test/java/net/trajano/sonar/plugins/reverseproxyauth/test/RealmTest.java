@@ -47,6 +47,7 @@ public class RealmTest {
         settings.appendProperty("reverseproxyauth.header.name",
             "X-Forwarded-User");
         settings.appendProperty("reverseproxyauth.localhost", "localhost");
+        settings.appendProperty(CoreProperties.SERVER_BASE_URL, "http://foo.com");
 
         final ReverseProxyAuthSettings reverseProxyAuthSettings = new ReverseProxyAuthSettings(settings);
         final SecurityRealm realm = new ReverseProxyAuthRealm(reverseProxyAuthSettings);
@@ -89,6 +90,7 @@ public class RealmTest {
         settings.appendProperty("reverseproxyauth.header.name",
             "X-Forwarded-User");
         settings.appendProperty("reverseproxyauth.localhost", "localhost");
+        settings.appendProperty(CoreProperties.SERVER_BASE_URL, "http://foo.com/barbar");
 
         final ReverseProxyAuthSettings reverseProxyAuthSettings = new ReverseProxyAuthSettings(settings);
         final SecurityRealm realm = new ReverseProxyAuthRealm(reverseProxyAuthSettings);

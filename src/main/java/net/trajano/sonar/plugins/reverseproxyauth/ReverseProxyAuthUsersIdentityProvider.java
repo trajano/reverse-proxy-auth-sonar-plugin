@@ -83,22 +83,22 @@ public class ReverseProxyAuthUsersIdentityProvider implements
 
         try {
             if (settings.isLocalHost(context.getRequest())) {
-                context.getResponse().sendRedirect(context.getServerBaseURL() + "/sessions/unauthorized");
+                context.getResponse().sendRedirect(settings.getBaseUrl() + "/sessions/unauthorized");
                 return;
             }
 
             final String headerValue = settings.getUserNameFromHeader(context.getRequest());
             if (headerValue == null) {
-                context.getResponse().sendRedirect(context.getServerBaseURL() + "/sessions/unauthorized");
+                context.getResponse().sendRedirect(settings.getBaseUrl() + "/sessions/unauthorized");
                 return;
             }
             context.authenticate(UserIdentity.builder().setEmail(headerValue)
                 .setProviderLogin(headerValue)
                 .setLogin(headerValue)
                 .setName(headerValue).build());
-            context.getResponse().sendRedirect(context.getServerBaseURL() + "/reverseproxyauth/redirect_back_or_home_url");
+            context.getResponse().sendRedirect(settings.getBaseUrl() + "/reverseproxyauth/redirect_back_or_home_url");
         } catch (final IOException e) {
-            throw new RuntimeException(e);
+            throw new IllegalStateException(e);
         }
     }
 

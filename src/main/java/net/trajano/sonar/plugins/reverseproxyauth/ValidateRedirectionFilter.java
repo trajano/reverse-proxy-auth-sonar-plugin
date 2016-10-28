@@ -44,6 +44,7 @@ public class ValidateRedirectionFilter extends ServletFilter {
      *            injected settings
      */
     public ValidateRedirectionFilter(final ReverseProxyAuthSettings settings) {
+        super();
         filterEnabled = settings.isRealmReverseProxyAuth();
         this.settings = settings;
     }

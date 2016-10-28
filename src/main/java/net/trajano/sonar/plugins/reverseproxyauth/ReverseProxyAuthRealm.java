@@ -24,6 +24,7 @@ public class ReverseProxyAuthRealm extends SecurityRealm {
      *            injected settings.
      */
     public ReverseProxyAuthRealm(final ReverseProxyAuthSettings settings) {
+        super();
         this.settings = settings;
     }
 
