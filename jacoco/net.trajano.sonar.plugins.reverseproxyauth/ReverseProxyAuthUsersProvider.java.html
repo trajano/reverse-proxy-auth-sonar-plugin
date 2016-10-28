@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ReverseProxyAuthUsersProvider.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Reverse Proxy Authenticator</a> &gt; <a href="index.source.html" class="el_package">net.trajano.sonar.plugins.reverseproxyauth</a> &gt; <span class="el_source">ReverseProxyAuthUsersProvider.java</span></div><h1>ReverseProxyAuthUsersProvider.java</h1><pre class="source lang-java linenums">package net.trajano.sonar.plugins.reverseproxyauth;
+<?xml version="1.0" encoding="utf-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ReverseProxyAuthUsersProvider.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Reverse Proxy Authenticator</a> &gt; <a href="index.source.html" class="el_package">net.trajano.sonar.plugins.reverseproxyauth</a> &gt; <span class="el_source">ReverseProxyAuthUsersProvider.java</span></div><h1>ReverseProxyAuthUsersProvider.java</h1><pre class="source lang-java linenums">package net.trajano.sonar.plugins.reverseproxyauth;
 
 import org.sonar.api.config.Settings;
 import org.sonar.api.security.ExternalUsersProvider;
@@ -10,45 +10,42 @@ import org.sonar.api.security.UserDetails;
  * .
  */
 public class ReverseProxyAuthUsersProvider extends ExternalUsersProvider {
-    /**
-     * HTTP Header name containing the user name.
-     */
-    private final String headerName;
 
     /**
-     * Host name to allow sonar executions. Authentication will always be
-     * accepted when accessing this host name from the
-     * {@link javax.servlet.http.HttpServletRequest}.
+     * Settings.
      */
-    private final String localHost;
+    private final ReverseProxyAuthSettings settings;
 
     /**
      * Constructs the {@link ExternalUsersProvider} with the specified
      * {@link Settings}.
-     * 
+     *
      * @param settings
-     *            settings
+     *            injected settings
      */
-    public ReverseProxyAuthUsersProvider(final Settings settings) {
-<span class="fc" id="L33">        super();</span>
-<span class="fc" id="L34">        headerName = settings.getString(&quot;reverseproxyauth.header.name&quot;);</span>
-<span class="fc" id="L35">        localHost = settings.getString(&quot;reverseproxyauth.localhost&quot;);</span>
-<span class="fc" id="L36">    }</span>
+    public ReverseProxyAuthUsersProvider(final ReverseProxyAuthSettings settings) {
+<span class="fc" id="L27">        super();</span>
+<span class="fc" id="L28">        this.settings = settings;</span>
+<span class="fc" id="L29">    }</span>
 
+    /**
+     * Obtains the user details from the header. Will return &lt;code&gt;null&lt;/code&gt;
+     * if it cannot be obtained. However, if it is localhost it will return an
+     * empty {@link UserDetails} structure. {@inheritDoc}
+     */
     @Override
     public UserDetails doGetUserDetails(final Context context) {
 
-<span class="fc" id="L41">        final UserDetails userDetails = new UserDetails();</span>
-<span class="fc bfc" id="L42" title="All 2 branches covered.">        if (!localHost.equals(context.getRequest().getServerName())) {</span>
-<span class="fc" id="L43">            final String headerValue = context.getRequest().getHeader(</span>
-                    headerName);
-<span class="fc bfc" id="L45" title="All 4 branches covered.">            if (headerValue == null || headerValue.trim().isEmpty()) {</span>
-<span class="fc" id="L46">                return null;</span>
+<span class="fc" id="L39">        final UserDetails userDetails = new UserDetails();</span>
+<span class="fc bfc" id="L40" title="All 2 branches covered.">        if (!settings.isLocalHost(context.getRequest())) {</span>
+<span class="fc" id="L41">            final String headerValue = settings.getUserNameFromHeader(context.getRequest());</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">            if (headerValue == null) {</span>
+<span class="fc" id="L43">                return null;</span>
             }
-<span class="fc" id="L48">            userDetails.setEmail(headerValue);</span>
-<span class="fc" id="L49">            userDetails.setName(headerValue);</span>
+<span class="fc" id="L45">            userDetails.setEmail(headerValue);</span>
+<span class="fc" id="L46">            userDetails.setName(headerValue);</span>
         }
-<span class="fc" id="L51">        return userDetails;</span>
+<span class="fc" id="L48">        return userDetails;</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

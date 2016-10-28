@@ -1,23 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ReverseProxyAuthRealm.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Reverse Proxy Authenticator</a> &gt; <a href="index.source.html" class="el_package">net.trajano.sonar.plugins.reverseproxyauth</a> &gt; <span class="el_source">ReverseProxyAuthRealm.java</span></div><h1>ReverseProxyAuthRealm.java</h1><pre class="source lang-java linenums">package net.trajano.sonar.plugins.reverseproxyauth;
+<?xml version="1.0" encoding="utf-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ReverseProxyAuthRealm.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Reverse Proxy Authenticator</a> &gt; <a href="index.source.html" class="el_package">net.trajano.sonar.plugins.reverseproxyauth</a> &gt; <span class="el_source">ReverseProxyAuthRealm.java</span></div><h1>ReverseProxyAuthRealm.java</h1><pre class="source lang-java linenums">package net.trajano.sonar.plugins.reverseproxyauth;
 
-import org.sonar.api.config.Settings;
-import org.sonar.api.security.Authenticator;
 import org.sonar.api.security.ExternalUsersProvider;
 import org.sonar.api.security.SecurityRealm;
 
 /**
- * Realm.
+ * The security realm. Does nothing for the most part but will allow the use of
+ * it in &quot;sonar.security.realm&quot;.
  */
 public class ReverseProxyAuthRealm extends SecurityRealm {
-    /**
-     * Authenticator. Constructed on {@link #init()}.
-     */
-    private Authenticator authenticator;
 
     /**
      * Settings injected.
      */
-    private final Settings settings;
+    private final ReverseProxyAuthSettings settings;
 
     /**
      * Users provider. Constructed on {@link #init()}.
@@ -26,29 +21,22 @@ public class ReverseProxyAuthRealm extends SecurityRealm {
 
     /**
      * @param settings
-     *            injected settings
+     *            injected settings.
      */
-    public ReverseProxyAuthRealm(final Settings settings) {
-<span class="fc" id="L32">        super();</span>
-<span class="fc" id="L33">        this.settings = settings;</span>
-<span class="fc" id="L34">    }</span>
+    public ReverseProxyAuthRealm(final ReverseProxyAuthSettings settings) {
+<span class="fc" id="L27">        super();</span>
+<span class="fc" id="L28">        this.settings = settings;</span>
+<span class="fc" id="L29">    }</span>
 
     /**
      * {@inheritDoc}
-     */
-    @Override
-    public Authenticator doGetAuthenticator() {
-<span class="fc" id="L41">        return authenticator;</span>
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
+     *
      * @return {@link ReverseProxyAuthPlugin#KEY}
      */
     @Override
     public String getName() {
-<span class="fc" id="L51">        return ReverseProxyAuthPlugin.KEY;</span>
+
+<span class="fc" id="L39">        return ReverseProxyAuthPlugin.KEY;</span>
     }
 
     /**
@@ -56,17 +44,18 @@ public class ReverseProxyAuthRealm extends SecurityRealm {
      */
     @Override
     public ExternalUsersProvider getUsersProvider() {
-<span class="fc" id="L59">        return usersProvider;</span>
+
+<span class="fc" id="L48">        return usersProvider;</span>
     }
 
     /**
-     * Instantiates for the {@link Authenticator} and the
-     * {@link ExternalUsersProvider}.
+     * Instantiates the {@link ExternalUsersProvider}.
      */
     @Override
     public void init() {
-<span class="fc" id="L68">        authenticator = new ReverseProxyAuthenticator(settings);</span>
-<span class="fc" id="L69">        usersProvider = new ReverseProxyAuthUsersProvider(settings);</span>
-<span class="fc" id="L70">    }</span>
+
+<span class="fc" id="L57">        usersProvider = new ReverseProxyAuthUsersProvider(settings);</span>
+<span class="fc" id="L58">    }</span>
+
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>

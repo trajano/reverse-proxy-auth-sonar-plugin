@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ReverseProxyAuthUsersIdentityProvider.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Reverse Proxy Authenticator</a> &gt; <a href="index.source.html" class="el_package">net.trajano.sonar.plugins.reverseproxyauth</a> &gt; <span class="el_source">ReverseProxyAuthUsersIdentityProvider.java</span></div><h1>ReverseProxyAuthUsersIdentityProvider.java</h1><pre class="source lang-java linenums">package net.trajano.sonar.plugins.reverseproxyauth;
+
+import java.io.IOException;
+
+import org.sonar.api.config.Settings;
+import org.sonar.api.security.ExternalUsersProvider;
+import org.sonar.api.server.authentication.BaseIdentityProvider;
+import org.sonar.api.server.authentication.Display;
+import org.sonar.api.server.authentication.UserIdentity;
+
+/**
+ * This provides the user details. It is called before
+ * {@link org.sonar.api.security.Authenticator#doAuthenticate(org.sonar.api.security.Authenticator.Context)}
+ * .
+ */
+public class ReverseProxyAuthUsersIdentityProvider implements
+    BaseIdentityProvider {
+
+    /**
+     * Settings.
+     */
+    private final ReverseProxyAuthSettings settings;
+
+    /**
+     * Constructs the {@link ExternalUsersProvider} with the specified
+     * {@link Settings}.
+     *
+     * @param settings
+     *            injected settings
+     */
+    public ReverseProxyAuthUsersIdentityProvider(final ReverseProxyAuthSettings settings) {
+<span class="fc" id="L32">        super();</span>
+<span class="fc" id="L33">        this.settings = settings;</span>
+<span class="fc" id="L34">    }</span>
+
+    /**
+     * Check if users allow allowed to signup automatically using this provider.
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean allowsUsersToSignUp() {
+
+<span class="fc" id="L43">        return settings.allowsUsersToSignUp();</span>
+    }
+
+    /**
+     * Since this will never be displayed to the user as an option. This will
+     * always return &lt;code&gt;null&lt;/code&gt;.
+     *
+     * @return &lt;code&gt;null&lt;/code&gt;
+     */
+    @Override
+    public Display getDisplay() {
+
+<span class="fc" id="L55">        return Display.builder().setIconPath(settings.getBaseUrl() + &quot;/static/reverseproxyauth/proxy.png&quot;).build();</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return {@value ReverseProxyAuthPlugin#KEY}
+     */
+    @Override
+    public String getKey() {
+
+<span class="fc" id="L66">        return ReverseProxyAuthPlugin.KEY;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getName() {
+
+<span class="fc" id="L75">        return &quot;Reverse Proxy Authentication Plugin&quot;;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void init(final Context context) {
+
+        try {
+<span class="fc bfc" id="L85" title="All 2 branches covered.">            if (settings.isLocalHost(context.getRequest())) {</span>
+<span class="fc" id="L86">                context.getResponse().sendRedirect(settings.getUnauthorizedUrl());</span>
+<span class="fc" id="L87">                return;</span>
+            }
+
+<span class="fc" id="L90">            final String headerValue = settings.getUserNameFromHeader(context.getRequest());</span>
+<span class="fc bfc" id="L91" title="All 2 branches covered.">            if (headerValue == null) {</span>
+<span class="fc" id="L92">                context.getResponse().sendRedirect(settings.getUnauthorizedUrl());</span>
+<span class="fc" id="L93">                return;</span>
+            }
+<span class="fc" id="L95">            context.authenticate(UserIdentity.builder().setEmail(headerValue)</span>
+<span class="fc" id="L96">                .setProviderLogin(headerValue)</span>
+<span class="fc" id="L97">                .setLogin(headerValue)</span>
+<span class="fc" id="L98">                .setName(headerValue).build());</span>
+<span class="fc" id="L99">            context.getResponse().sendRedirect(settings.getRedirectBackOrHomeUrl());</span>
+<span class="fc" id="L100">        } catch (final IOException e) {</span>
+<span class="fc" id="L101">            throw new IllegalStateException(e);</span>
+<span class="fc" id="L102">        }</span>
+<span class="fc" id="L103">    }</span>
+
+    /**
+     * Checks if the realm was set, due to the nature of how authentications are
+     * done with this plugin, it shouldn't be used as an identity provider
+     * unless it is the only one. {@inheritDoc}
+     *
+     * @return &lt;code&gt;true&lt;/code&gt; if the realm was set.
+     */
+    @Override
+    public boolean isEnabled() {
+
+<span class="fc" id="L115">        return settings.isRealmReverseProxyAuth();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>
