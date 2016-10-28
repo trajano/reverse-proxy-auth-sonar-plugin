@@ -1,7 +1,6 @@
 package net.trajano.sonar.plugins.reverseproxyauth;
 
 import java.io.IOException;
-import java.net.URI;
 
 import org.sonar.api.config.Settings;
 import org.sonar.api.platform.Server;
@@ -94,7 +93,7 @@ public class ReverseProxyAuthUsersIdentityProvider implements
             .setLogin(headerValue)
             .setName(headerValue).build());
         try {
-            context.getResponse().sendRedirect(URI.create(context.getRequest().getRequestURL().toString()).resolve(context.getRequest().getContextPath()).resolve("/reverseproxyauth/redirect_back_or_home_url").toASCIIString());
+            context.getResponse().sendRedirect(server.getURL() + "/reverseproxyauth/redirect_back_or_home_url");
         } catch (final IOException e) {
             throw new RuntimeException(e);
         }

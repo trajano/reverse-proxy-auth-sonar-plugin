@@ -64,6 +64,8 @@ public class RealmTest {
             .thenReturn("/");
 
         final Server mockServer = mock(Server.class);
+        when(mockServer.getContextPath()).thenReturn("");
+        when(mockServer.getURL()).thenReturn("http://foo.com");
         final ReverseProxyAuthUsersIdentityProvider provider = new ReverseProxyAuthUsersIdentityProvider(reverseProxyAuthSettings, mockServer);
         final Context context = mock(Context.class);
         when(context.getRequest()).thenReturn(httpServletRequest);
@@ -71,7 +73,44 @@ public class RealmTest {
         when(context.getResponse()).thenReturn(response);
         provider.init(context);
         verify(context).authenticate(Matchers.any());
-        verify(response).sendRedirect("/reverseproxyauth/redirect_back_or_home_url");
+        verify(response).sendRedirect("http://foo.com/reverseproxyauth/redirect_back_or_home_url");
+    }
+
+    /**
+     * Tests the typical authentication process.
+     *
+     * @throws IOException
+     */
+    @Test
+    public void testRealmDifferentContext() throws IOException {
+
+        final Settings settings = new Settings();
+        settings.appendProperty("reverseproxyauth.header.name",
+            "X-Forwarded-User");
+        settings.appendProperty("reverseproxyauth.localhost", "localhost");
+
+        final ReverseProxyAuthSettings reverseProxyAuthSettings = new ReverseProxyAuthSettings(settings);
+        final SecurityRealm realm = new ReverseProxyAuthRealm(reverseProxyAuthSettings);
+        realm.getName();
+        realm.init();
+
+        final HttpServletRequest httpServletRequest = mock(HttpServletRequest.class);
+        when(httpServletRequest.getHeader("X-Forwarded-User")).thenReturn(
+            "foo@bar.com");
+        when(httpServletRequest.getServerName())
+            .thenReturn("not.localhost.com");
+
+        final Server mockServer = mock(Server.class);
+        when(mockServer.getContextPath()).thenReturn("/barbar");
+        when(mockServer.getURL()).thenReturn("http://foo.com/barbar");
+        final ReverseProxyAuthUsersIdentityProvider provider = new ReverseProxyAuthUsersIdentityProvider(reverseProxyAuthSettings, mockServer);
+        final Context context = mock(Context.class);
+        when(context.getRequest()).thenReturn(httpServletRequest);
+        final HttpServletResponse response = mock(HttpServletResponse.class);
+        when(context.getResponse()).thenReturn(response);
+        provider.init(context);
+        verify(context).authenticate(Matchers.any());
+        verify(response).sendRedirect("http://foo.com/barbar/reverseproxyauth/redirect_back_or_home_url");
     }
 
     /**
