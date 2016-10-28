@@ -17,6 +17,12 @@ import org.sonar.api.server.ServerSide;
 public class ReverseProxyAuthSettings {
 
     /**
+     * If true, then new users that are not yet registered in the system are
+     * automatically registered.
+     */
+    public static final String ALLOW_NEW_USERS = "reverseproxyauth.allow.new";
+
+    /**
      * HTTP Header name containing the user name.
      */
     public static final String HEADER_NAME = "reverseproxyauth.header.name";
@@ -42,13 +48,23 @@ public class ReverseProxyAuthSettings {
     }
 
     /**
-     * Returns the value of sonar.allowUsersToSignUp.
+     * Returns the value of {@link #ALLOW_NEW_USERS}.
      *
-     * @return the value of sonar.allowUsersToSignUp.
+     * @return the value of {@link #ALLOW_NEW_USERS}.
      */
     public boolean allowsUsersToSignUp() {
 
-        return settings.getBoolean(CoreProperties.CORE_ALLOW_USERS_TO_SIGNUP_PROPERTY);
+        return settings.getBoolean(ALLOW_NEW_USERS);
+    }
+
+    /**
+     * Base URL of the server.
+     *
+     * @return Base URL of the server.
+     */
+    public String getBaseUrl() {
+
+        return settings.getString(CoreProperties.SERVER_BASE_URL);
     }
 
     /**

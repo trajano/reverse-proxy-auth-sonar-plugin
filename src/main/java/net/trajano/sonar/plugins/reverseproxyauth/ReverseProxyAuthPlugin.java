@@ -3,6 +3,7 @@ package net.trajano.sonar.plugins.reverseproxyauth;
 import org.sonar.api.Plugin;
 import org.sonar.api.Properties;
 import org.sonar.api.Property;
+import org.sonar.api.PropertyType;
 
 /**
  * Plugin entry point.
@@ -13,7 +14,11 @@ import org.sonar.api.Property;
         defaultValue = "X-Forwarded-User"),
     @Property(key = ReverseProxyAuthSettings.LOCALHOST,
         name = "Hostname to allow Sonar executions",
-        defaultValue = "localhost")
+        defaultValue = "localhost"),
+    @Property(key = ReverseProxyAuthSettings.ALLOW_NEW_USERS,
+        name = "Allow new users to be be created",
+        defaultValue = "false",
+        type = PropertyType.BOOLEAN)
 })
 public class ReverseProxyAuthPlugin implements
     Plugin {

@@ -3,7 +3,6 @@ package net.trajano.sonar.plugins.reverseproxyauth;
 import java.io.IOException;
 
 import org.sonar.api.config.Settings;
-import org.sonar.api.platform.Server;
 import org.sonar.api.security.ExternalUsersProvider;
 import org.sonar.api.server.authentication.BaseIdentityProvider;
 import org.sonar.api.server.authentication.Display;
@@ -17,8 +16,9 @@ import org.sonar.api.server.authentication.UserIdentity;
 public class ReverseProxyAuthUsersIdentityProvider implements
     BaseIdentityProvider {
 
-    private final Server server;
-
+    /**
+     * Settings.
+     */
     private final ReverseProxyAuthSettings settings;
 
     /**
@@ -28,11 +28,9 @@ public class ReverseProxyAuthUsersIdentityProvider implements
      * @param settings
      *            injected settings
      */
-    public ReverseProxyAuthUsersIdentityProvider(final ReverseProxyAuthSettings settings,
-        final Server server) {
+    public ReverseProxyAuthUsersIdentityProvider(final ReverseProxyAuthSettings settings) {
         super();
         this.settings = settings;
-        this.server = server;
     }
 
     /**
@@ -46,12 +44,15 @@ public class ReverseProxyAuthUsersIdentityProvider implements
     }
 
     /**
-     * Places an button on the login screen. {@inheritDoc}
+     * Since this will never be displayed to the user as an option. This will
+     * always return <code>null</code>.
+     *
+     * @return <code>null</code>
      */
     @Override
     public Display getDisplay() {
 
-        return Display.builder().setIconPath(server.getURL() + "/static/reverseproxyauth/proxy.png").build();
+        return Display.builder().setIconPath(settings.getBaseUrl() + "/static/reverseproxyauth/proxy.png").build();
     }
 
     /**
@@ -80,33 +81,37 @@ public class ReverseProxyAuthUsersIdentityProvider implements
     @Override
     public void init(final Context context) {
 
-        if (settings.isLocalHost(context.getRequest())) {
-            return;
-        }
-
-        final String headerValue = settings.getUserNameFromHeader(context.getRequest());
-        if (headerValue == null) {
-            return;
-        }
-        context.authenticate(UserIdentity.builder().setEmail(headerValue)
-            .setProviderLogin(headerValue)
-            .setLogin(headerValue)
-            .setName(headerValue).build());
         try {
-            context.getResponse().sendRedirect(server.getURL() + "/reverseproxyauth/redirect_back_or_home_url");
+            if (settings.isLocalHost(context.getRequest())) {
+                context.getResponse().sendRedirect(context.getServerBaseURL() + "/sessions/unauthorized");
+                return;
+            }
+
+            final String headerValue = settings.getUserNameFromHeader(context.getRequest());
+            if (headerValue == null) {
+                context.getResponse().sendRedirect(context.getServerBaseURL() + "/sessions/unauthorized");
+                return;
+            }
+            context.authenticate(UserIdentity.builder().setEmail(headerValue)
+                .setProviderLogin(headerValue)
+                .setLogin(headerValue)
+                .setName(headerValue).build());
+            context.getResponse().sendRedirect(context.getServerBaseURL() + "/reverseproxyauth/redirect_back_or_home_url");
         } catch (final IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     /**
-     * {@inheritDoc}
+     * Checks if the realm was set, due to the nature of how authentications are
+     * done with this plugin, it shouldn't be used as an identity provider
+     * unless it is the only one. {@inheritDoc}
      *
-     * @return <code>true</code>
+     * @return <code>true</code> if the realm was set.
      */
     @Override
     public boolean isEnabled() {
 
-        return true;
+        return settings.isRealmReverseProxyAuth();
     }
 }

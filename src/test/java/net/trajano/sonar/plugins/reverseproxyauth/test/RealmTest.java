@@ -66,9 +66,10 @@ public class RealmTest {
         final Server mockServer = mock(Server.class);
         when(mockServer.getContextPath()).thenReturn("");
         when(mockServer.getURL()).thenReturn("http://foo.com");
-        final ReverseProxyAuthUsersIdentityProvider provider = new ReverseProxyAuthUsersIdentityProvider(reverseProxyAuthSettings, mockServer);
+        final ReverseProxyAuthUsersIdentityProvider provider = new ReverseProxyAuthUsersIdentityProvider(reverseProxyAuthSettings);
         final Context context = mock(Context.class);
         when(context.getRequest()).thenReturn(httpServletRequest);
+        when(context.getServerBaseURL()).thenReturn("http://foo.com");
         final HttpServletResponse response = mock(HttpServletResponse.class);
         when(context.getResponse()).thenReturn(response);
         provider.init(context);
@@ -103,11 +104,12 @@ public class RealmTest {
         final Server mockServer = mock(Server.class);
         when(mockServer.getContextPath()).thenReturn("/barbar");
         when(mockServer.getURL()).thenReturn("http://foo.com/barbar");
-        final ReverseProxyAuthUsersIdentityProvider provider = new ReverseProxyAuthUsersIdentityProvider(reverseProxyAuthSettings, mockServer);
+        final ReverseProxyAuthUsersIdentityProvider provider = new ReverseProxyAuthUsersIdentityProvider(reverseProxyAuthSettings);
         final Context context = mock(Context.class);
         when(context.getRequest()).thenReturn(httpServletRequest);
         final HttpServletResponse response = mock(HttpServletResponse.class);
         when(context.getResponse()).thenReturn(response);
+        when(context.getServerBaseURL()).thenReturn("http://foo.com/barbar");
         provider.init(context);
         verify(context).authenticate(Matchers.any());
         verify(response).sendRedirect("http://foo.com/barbar/reverseproxyauth/redirect_back_or_home_url");
@@ -134,8 +136,7 @@ public class RealmTest {
         when(httpServletRequest.getServerName())
             .thenReturn("not.localhost.com");
 
-        final Server mockServer = mock(Server.class);
-        final ReverseProxyAuthUsersIdentityProvider provider = new ReverseProxyAuthUsersIdentityProvider(reverseProxyAuthSettings, mockServer);
+        final ReverseProxyAuthUsersIdentityProvider provider = new ReverseProxyAuthUsersIdentityProvider(reverseProxyAuthSettings);
         final Context context = mock(Context.class);
         when(context.getRequest()).thenReturn(httpServletRequest);
         when(context.getResponse()).thenReturn(mock(HttpServletResponse.class));
@@ -162,8 +163,7 @@ public class RealmTest {
         when(httpServletRequest.getServerName())
             .thenReturn("not.localhost.com");
 
-        final Server mockServer = mock(Server.class);
-        final ReverseProxyAuthUsersIdentityProvider provider = new ReverseProxyAuthUsersIdentityProvider(reverseProxyAuthSettings, mockServer);
+        final ReverseProxyAuthUsersIdentityProvider provider = new ReverseProxyAuthUsersIdentityProvider(reverseProxyAuthSettings);
         final Context context = mock(Context.class);
         when(context.getRequest()).thenReturn(httpServletRequest);
         when(context.getResponse()).thenReturn(mock(HttpServletResponse.class));
@@ -189,8 +189,7 @@ public class RealmTest {
         final HttpServletRequest httpServletRequest = mock(HttpServletRequest.class);
         when(httpServletRequest.getServerName()).thenReturn("localhost");
 
-        final Server mockServer = mock(Server.class);
-        final ReverseProxyAuthUsersIdentityProvider provider = new ReverseProxyAuthUsersIdentityProvider(reverseProxyAuthSettings, mockServer);
+        final ReverseProxyAuthUsersIdentityProvider provider = new ReverseProxyAuthUsersIdentityProvider(reverseProxyAuthSettings);
         final Context context = mock(Context.class);
         when(context.getRequest()).thenReturn(httpServletRequest);
         when(context.getResponse()).thenReturn(mock(HttpServletResponse.class));
@@ -201,10 +200,10 @@ public class RealmTest {
     public void testStaticValues() {
 
         final Settings settings = new Settings();
-        settings.appendProperty(CoreProperties.CORE_ALLOW_USERS_TO_SIGNUP_PROPERTY, "true");
-        final Server mockServer = mock(Server.class);
-        when(mockServer.getURL()).thenReturn("http://foo.com/sonar");
-        final ReverseProxyAuthUsersIdentityProvider provider = new ReverseProxyAuthUsersIdentityProvider(new ReverseProxyAuthSettings(settings), mockServer);
+        settings.appendProperty(ReverseProxyAuthSettings.ALLOW_NEW_USERS, "true");
+        settings.appendProperty(CoreProperties.CORE_AUTHENTICATOR_REALM, ReverseProxyAuthPlugin.KEY);
+        settings.appendProperty(CoreProperties.SERVER_BASE_URL, "http://foo.com/sonar");
+        final ReverseProxyAuthUsersIdentityProvider provider = new ReverseProxyAuthUsersIdentityProvider(new ReverseProxyAuthSettings(settings));
         assertEquals(ReverseProxyAuthPlugin.KEY, provider.getKey());
         assertNotNull(provider.getName());
         final Display display = provider.getDisplay();
@@ -242,8 +241,7 @@ public class RealmTest {
         when(httpServletRequest.getContextPath())
             .thenReturn("/");
 
-        final Server mockServer = mock(Server.class);
-        final ReverseProxyAuthUsersIdentityProvider provider = new ReverseProxyAuthUsersIdentityProvider(reverseProxyAuthSettings, mockServer);
+        final ReverseProxyAuthUsersIdentityProvider provider = new ReverseProxyAuthUsersIdentityProvider(reverseProxyAuthSettings);
         final Context context = mock(Context.class);
         when(context.getRequest()).thenReturn(httpServletRequest);
 
