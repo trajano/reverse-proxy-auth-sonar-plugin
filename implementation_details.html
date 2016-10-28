@@ -65,8 +65,24 @@
 	    <article class="page type-page status-publish hentry">
 	      <div class="entry-content">
                 <h1>Implementation details</h1>
-<p>Sonar is configured to force authentication, when it detects that the user is lot logged on it will redirect to <tt>/sessions/new</tt> which is filtered to automatically redirect to <tt>/reverseproxyauth/validate</tt> that will set the current user details.</p>
-<p>If the connection is requesting &#x201c;localhost&#x201d; (configurable) it will accept any credentials.</p>
+<p>Assuming Sonarqube is configured to force authentication, the following sequence occurs:</p>
+
+<ol style="list-style-type: decimal">
+  
+<li>SonarQube detects that the user is not logged on</li>
+  
+<li>SonarQube will redirect to <tt>/sessions/new</tt></li>
+  
+<li><tt>/sessions/new</tt> which is filtered using <tt>ValidationRedirectionFilter</tt></li>
+  
+<li>The filter automatically redirects to <tt>/sessions/init/reverseproxyauth</tt></li>
+  
+<li><tt>/sessions/init/reverseproxyauth</tt> that will invoke the <tt>ReverseProxyAuthUsersIdentityProvider</tt></li>
+  
+<li><tt>ReverseProxyAuthUsersIdentityProvider</tt> will then set the credentials then redirect to <tt>reverseproxyauth/redirect_back_or_home_url</tt></li>
+  
+<li><tt>reverseproxyauth/redirect_back_or_home_url</tt> will invoke <tt>redirect_back_or_home_url</tt> in the Rails context which will peform the redirect back to the original request or the home if not available.</li>
+</ol>
 	      </div>
 	    </article>
 	  </div>

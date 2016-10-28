@@ -25,7 +25,7 @@
 <a class="jxr_linenumber" name="L17" href="#L17">17</a>          defaultValue = <span class="jxr_string">"localhost"</span>),
 <a class="jxr_linenumber" name="L18" href="#L18">18</a>      @Property(key = ReverseProxyAuthSettings.ALLOW_NEW_USERS,
 <a class="jxr_linenumber" name="L19" href="#L19">19</a>          name = <span class="jxr_string">"Allow new users to be be created"</span>,
-<a class="jxr_linenumber" name="L20" href="#L20">20</a>          defaultValue = <span class="jxr_string">"false"</span>,
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>          defaultValue = <span class="jxr_string">"true"</span>,
 <a class="jxr_linenumber" name="L21" href="#L21">21</a>          type = PropertyType.BOOLEAN)
 <a class="jxr_linenumber" name="L22" href="#L22">22</a>  })
 <a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../net/trajano/sonar/plugins/reverseproxyauth/ReverseProxyAuthPlugin.html">ReverseProxyAuthPlugin</a> <strong class="jxr_keyword">implements</strong>
@@ -36,16 +36,19 @@
 <a class="jxr_linenumber" name="L28" href="#L28">28</a>  <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L29" href="#L29">29</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String KEY = <span class="jxr_string">"reverseproxyauth"</span>;
 <a class="jxr_linenumber" name="L30" href="#L30">30</a>  
-<a class="jxr_linenumber" name="L31" href="#L31">31</a>      @Override
-<a class="jxr_linenumber" name="L32" href="#L32">32</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> define(<strong class="jxr_keyword">final</strong> Context context) {
-<a class="jxr_linenumber" name="L33" href="#L33">33</a>  
-<a class="jxr_linenumber" name="L34" href="#L34">34</a>          context.addExtension(ReverseProxyAuthSettings.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L35" href="#L35">35</a>          context.addExtension(ReverseProxyAuthRealm.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L36" href="#L36">36</a>          context.addExtension(ReverseProxyAuthUsersIdentityProvider.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L37" href="#L37">37</a>          context.addExtension(ValidateRedirectionFilter.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="L38" href="#L38">38</a>      }
-<a class="jxr_linenumber" name="L39" href="#L39">39</a>  
-<a class="jxr_linenumber" name="L40" href="#L40">40</a>  }
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>      <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  <em class="jxr_javadoccomment">     * {@inheritDoc}</em>
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>      @Override
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> define(<strong class="jxr_keyword">final</strong> Context context) {
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>          context.addExtensions(ReverseProxyAuthSettings.<strong class="jxr_keyword">class</strong>,
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>              ReverseProxyAuthRealm.<strong class="jxr_keyword">class</strong>,
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>              ReverseProxyAuthUsersIdentityProvider.<strong class="jxr_keyword">class</strong>,
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>              ValidateRedirectionFilter.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>      }
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2012&#x2013;2016 <a href="http://www.trajano.net/">Trajano</a>. All rights reserved.</div>
