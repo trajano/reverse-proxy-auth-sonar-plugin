@@ -1,5 +1,6 @@
 package net.trajano.sonar.plugins.reverseproxyauth;
 
+import javax.annotation.Nonnull;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
@@ -43,7 +44,7 @@ public class ReverseProxyAuthSettings {
      * @param settings
      *            injected settings.
      */
-    public ReverseProxyAuthSettings(final Settings settings) {
+    public ReverseProxyAuthSettings(@Nonnull final Settings settings) {
         this.settings = settings;
     }
 
@@ -75,7 +76,7 @@ public class ReverseProxyAuthSettings {
      *            servlet request
      * @return user name
      */
-    public String getUserNameFromHeader(final HttpServletRequest request) {
+    public String getUserNameFromHeader(@Nonnull final HttpServletRequest request) {
 
         final String headerValue = request.getHeader(settings.getString(HEADER_NAME));
         if (headerValue == null || headerValue.trim().isEmpty()) {
@@ -92,7 +93,7 @@ public class ReverseProxyAuthSettings {
      *            servlet request
      * @return true if the server name is equal to localhost.
      */
-    public boolean isLocalHost(final ServletRequest request) {
+    public boolean isLocalHost(@Nonnull final ServletRequest request) {
 
         return settings.getString(LOCALHOST) != null && settings.getString(LOCALHOST).equals(request.getServerName());
     }
