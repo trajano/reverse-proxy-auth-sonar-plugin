@@ -28,13 +28,16 @@ public class ReverseProxyAuthPlugin implements
      */
     public static final String KEY = "reverseproxyauth";
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void define(final Context context) {
 
-        context.addExtension(ReverseProxyAuthSettings.class);
-        context.addExtension(ReverseProxyAuthRealm.class);
-        context.addExtension(ReverseProxyAuthUsersIdentityProvider.class);
-        context.addExtension(ValidateRedirectionFilter.class);
+        context.addExtensions(ReverseProxyAuthSettings.class,
+            ReverseProxyAuthRealm.class,
+            ReverseProxyAuthUsersIdentityProvider.class,
+            ValidateRedirectionFilter.class);
     }
 
 }
