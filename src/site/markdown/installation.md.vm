@@ -7,8 +7,10 @@ security realm in the `$SONAR_DIR/conf/sonar.properties` file by adding
 
     sonar.security.realm=reverseproxyauth
 
-To ensure that no new users are created based on the presence of a valid forward
-just add the following
+### Automatic login
 
-    sonar.authenticator.createUsers=false
-    sonar.forceAuthentication=true
+To remove the need for users to explicitly click on **Log in** enable **Force user authentication** under *General Settings* > *Security*.
+
+### Automatic user creation
+
+By default, unregistered users are automatically created.   This can be changed from the settings.

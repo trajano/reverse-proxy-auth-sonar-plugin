@@ -17,7 +17,7 @@ import org.sonar.api.PropertyType;
         defaultValue = "localhost"),
     @Property(key = ReverseProxyAuthSettings.ALLOW_NEW_USERS,
         name = "Allow new users to be be created",
-        defaultValue = "false",
+        defaultValue = "true",
         type = PropertyType.BOOLEAN)
 })
 public class ReverseProxyAuthPlugin implements
