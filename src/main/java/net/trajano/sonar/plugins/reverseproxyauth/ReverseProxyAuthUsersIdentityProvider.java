@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.URI;
 
 import org.sonar.api.config.Settings;
+import org.sonar.api.platform.Server;
 import org.sonar.api.security.ExternalUsersProvider;
 import org.sonar.api.server.authentication.BaseIdentityProvider;
 import org.sonar.api.server.authentication.Display;
@@ -17,6 +18,8 @@ import org.sonar.api.server.authentication.UserIdentity;
 public class ReverseProxyAuthUsersIdentityProvider implements
     BaseIdentityProvider {
 
+    private final Server server;
+
     private final ReverseProxyAuthSettings settings;
 
     /**
@@ -26,9 +29,11 @@ public class ReverseProxyAuthUsersIdentityProvider implements
      * @param settings
      *            injected settings
      */
-    public ReverseProxyAuthUsersIdentityProvider(final ReverseProxyAuthSettings settings) {
+    public ReverseProxyAuthUsersIdentityProvider(final ReverseProxyAuthSettings settings,
+        final Server server) {
         super();
         this.settings = settings;
+        this.server = server;
     }
 
     /**
@@ -47,7 +52,7 @@ public class ReverseProxyAuthUsersIdentityProvider implements
     @Override
     public Display getDisplay() {
 
-        return Display.builder().setIconPath("foo.png").build();
+        return Display.builder().setIconPath(server.getURL() + "/static/reverseproxyauth/proxy.png").build();
     }
 
     /**
