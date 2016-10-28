@@ -69,6 +69,32 @@ public class ReverseProxyAuthSettings {
     }
 
     /**
+     * @return URL that points to the redirect back or home controller.
+     */
+    public String getRedirectBackOrHomeUrl() {
+
+        return settings.getString(CoreProperties.SERVER_BASE_URL) + "/reverseproxyauth/redirect_back_or_home_url";
+    }
+
+    /**
+     * This controller tells the Rails system to authenticate the user.
+     *
+     * @return URL that points to the reverseproxyauth init controller.
+     */
+    public String getReverseProxyAuthInitUrl() {
+
+        return settings.getString(CoreProperties.SERVER_BASE_URL) + "/sessions/init/reverseproxyauth";
+    }
+
+    /**
+     * @return URL that points to the unauthorized page.
+     */
+    public String getUnauthorizedUrl() {
+
+        return settings.getString(CoreProperties.SERVER_BASE_URL) + "/sessions/unauthorized";
+    }
+
+    /**
      * Gets the user name from the headers of the request. This may return null,
      * but will never return an empty or blank string.
      *

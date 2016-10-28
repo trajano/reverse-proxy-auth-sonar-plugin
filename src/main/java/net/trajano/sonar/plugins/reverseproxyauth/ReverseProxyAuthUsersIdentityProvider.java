@@ -35,7 +35,7 @@ public class ReverseProxyAuthUsersIdentityProvider implements
 
     /**
      * Check if users allow allowed to signup automatically using this provider.
-     * It uses the value from "sonar.allowUsersToSignUp". {@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public boolean allowsUsersToSignUp() {
@@ -83,20 +83,20 @@ public class ReverseProxyAuthUsersIdentityProvider implements
 
         try {
             if (settings.isLocalHost(context.getRequest())) {
-                context.getResponse().sendRedirect(settings.getBaseUrl() + "/sessions/unauthorized");
+                context.getResponse().sendRedirect(settings.getUnauthorizedUrl());
                 return;
             }
 
             final String headerValue = settings.getUserNameFromHeader(context.getRequest());
             if (headerValue == null) {
-                context.getResponse().sendRedirect(settings.getBaseUrl() + "/sessions/unauthorized");
+                context.getResponse().sendRedirect(settings.getUnauthorizedUrl());
                 return;
             }
             context.authenticate(UserIdentity.builder().setEmail(headerValue)
                 .setProviderLogin(headerValue)
                 .setLogin(headerValue)
                 .setName(headerValue).build());
-            context.getResponse().sendRedirect(settings.getBaseUrl() + "/reverseproxyauth/redirect_back_or_home_url");
+            context.getResponse().sendRedirect(settings.getRedirectBackOrHomeUrl());
         } catch (final IOException e) {
             throw new IllegalStateException(e);
         }
