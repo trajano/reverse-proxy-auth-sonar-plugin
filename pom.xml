@@ -8,7 +8,7 @@
     </parent>
     <groupId>net.trajano.sonar.plugins</groupId>
     <artifactId>reverse-proxy-auth-sonar-plugin</artifactId>
-    <version>6.0.0-SNAPSHOT</version>
+    <version>6.0.0</version>
     <packaging>sonar-plugin</packaging>
     <name>Reverse Proxy Authenticator</name>
     <description>Reverse Proxy Authenticator plugin for Sonar.</description>
@@ -16,7 +16,7 @@
     <scm>
         <connection>scm:git:https://github.com/trajano/reverse-proxy-auth-sonar-plugin</connection>
         <developerConnection>scm:git:ssh://git@github.com/trajano/reverse-proxy-auth-sonar-plugin.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>reverse-proxy-auth-sonar-plugin-6.0.0</tag>
         <url>https://github.com/trajano/reverse-proxy-auth-sonar-plugin</url>
     </scm>
     <distributionManagement>
@@ -32,10 +32,9 @@
     </properties>
     <dependencies>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.12</version>
-            <scope>provided</scope>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
         </dependency>
         <dependency>
             <groupId>net.trajano.commons</groupId>
@@ -56,10 +55,11 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-                            <groupId>javax.servlet</groupId>
-                            <artifactId>javax.servlet-api</artifactId>
-                            <version>3.1.0</version>
-                        </dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.12</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>org.sonarsource.sonarqube</groupId>
             <artifactId>sonar-plugin-api</artifactId>
