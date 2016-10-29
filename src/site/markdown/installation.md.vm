@@ -14,3 +14,20 @@ To remove the need for users to explicitly click on **Log in** enable **Force us
 ### Automatic user creation
 
 By default, unregistered users are automatically created.   This can be changed from the settings.
+
+### `NoClassDefFound: javax/servlet/Filter`
+
+If this occurs on the Maven builds, add the following configuration in the `<pluginManagement>` section of the `pom.xml` to ensure that the proper dependencies get loaded.
+
+    <plugin>
+      <groupId>org.sonarsource.scanner.maven</groupId>
+      <artifactId>sonar-maven-plugin</artifactId>
+      <version>3.2</version>
+      <dependencies>
+        <dependency>
+          <groupId>javax.servlet</groupId>
+          <artifactId>javax.servlet-api</artifactId>
+          <version>3.1.0</version>
+        </dependency>
+      </dependencies>
+    </plugin>
