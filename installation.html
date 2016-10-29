@@ -65,7 +65,7 @@
 	    <article class="page type-page status-publish hentry">
 	      <div class="entry-content">
                 <h1>Installation Guide</h1>
-<p>To enable this plugin, copy <tt>reverse-proxy-auth-sonar-plugin-6.0.0-SNAPSHOT.jar</tt> to the <tt>$SONAR_DIR/extensions/plugins</tt> folder. Then you need to set it as the security realm in the <tt>$SONAR_DIR/conf/sonar.properties</tt> file by adding</p>
+<p>To enable this plugin, copy <tt>reverse-proxy-auth-sonar-plugin-6.0.0.jar</tt> to the <tt>$SONAR_DIR/extensions/plugins</tt> folder. Then you need to set it as the security realm in the <tt>$SONAR_DIR/conf/sonar.properties</tt> file by adding</p>
 
 <div class="source">
 <div class="source">
@@ -73,6 +73,23 @@
 </pre></div></div>
 <p>To remove the need for users to explicitly click on <b>Log in</b> enable <b>Force user authentication</b> under <i>General Settings</i> &gt; <i>Security</i>.</p>
 <p>By default, unregistered users are automatically created. This can be changed from the settings.</p>
+<p>If this occurs on the Maven builds, add the following configuration in the <tt>&lt;pluginManagement&gt;</tt> section of the <tt>pom.xml</tt> to ensure that the proper dependencies get loaded.</p>
+
+<div class="source">
+<div class="source">
+<pre>&lt;plugin&gt;
+  &lt;groupId&gt;org.sonarsource.scanner.maven&lt;/groupId&gt;
+  &lt;artifactId&gt;sonar-maven-plugin&lt;/artifactId&gt;
+  &lt;version&gt;3.2&lt;/version&gt;
+  &lt;dependencies&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;javax.servlet&lt;/groupId&gt;
+      &lt;artifactId&gt;javax.servlet-api&lt;/artifactId&gt;
+      &lt;version&gt;3.1.0&lt;/version&gt;
+    &lt;/dependency&gt;
+  &lt;/dependencies&gt;
+&lt;/plugin&gt;
+</pre></div></div>
 	      </div>
 	    </article>
 	  </div>
@@ -84,7 +101,7 @@
                     
                 <div class="xleft">
         <span id="publishDate">Last Published: 2016-10-29</span>
-                   <br /> <span id="projectVersion">Version: 6.0.0-SNAPSHOT</span>
+                   <br /> <span id="projectVersion">Version: 6.0.0</span>
                       </div>
       	</h2>
         <div id="primary-sidebar" class="primary-sidebar widget-area" role="complementary">
