@@ -59,13 +59,26 @@ public class ReverseProxyAuthSettings {
     }
 
     /**
-     * Base URL of the server.
+     * This will return the base URL of the server. This will never return
+     * <code>null</code> but may return an empty string.
      *
-     * @return Base URL of the server.
+     * @return base url
      */
-    public String getBaseUrl() {
+    private String getBaseUrl() {
 
-        return settings.getString(CoreProperties.SERVER_BASE_URL);
+        final String baseUrl = settings.getString(CoreProperties.SERVER_BASE_URL);
+        if (baseUrl == null) {
+            return "";
+        }
+        return baseUrl;
+    }
+
+    /**
+     * @return URL to the icon for the authenticator.
+     */
+    public String getIconUrl() {
+
+        return getBaseUrl() + "/static/reverseproxyauth/proxy.png";
     }
 
     /**
@@ -73,7 +86,7 @@ public class ReverseProxyAuthSettings {
      */
     public String getRedirectBackOrHomeUrl() {
 
-        return settings.getString(CoreProperties.SERVER_BASE_URL) + "/reverseproxyauth/redirect_back_or_home_url";
+        return getBaseUrl() + "/reverseproxyauth/redirect_back_or_home_url";
     }
 
     /**
@@ -83,7 +96,7 @@ public class ReverseProxyAuthSettings {
      */
     public String getReverseProxyAuthInitUrl() {
 
-        return settings.getString(CoreProperties.SERVER_BASE_URL) + "/sessions/init/reverseproxyauth";
+        return getBaseUrl() + "/sessions/init/reverseproxyauth";
     }
 
     /**
@@ -91,7 +104,7 @@ public class ReverseProxyAuthSettings {
      */
     public String getUnauthorizedUrl() {
 
-        return settings.getString(CoreProperties.SERVER_BASE_URL) + "/sessions/unauthorized";
+        return getBaseUrl() + "/sessions/unauthorized";
     }
 
     /**

@@ -130,4 +130,35 @@ public class FilterTest {
         filter.destroy();
     }
 
+    /**
+     * Tests the typical filtering events.
+     */
+    @Test
+    public void testFilterNoBaseUrl() throws Exception {
+
+        final ServletContext servletContext = mock(ServletContext.class);
+        final FilterConfig filterConfig = mock(FilterConfig.class);
+        when(filterConfig.getServletContext()).thenReturn(servletContext);
+
+        final Settings settingsMock = mock(Settings.class);
+        when(settingsMock.getString("sonar.security.realm")).thenReturn("reverseproxyauth");
+        when(settingsMock.getString("reverseproxyauth.localhost")).thenReturn("not.localhost");
+        when(settingsMock.getString(CoreProperties.SERVER_BASE_URL)).thenReturn(null);
+        final ServletFilter filter = new ValidateRedirectionFilter(new ReverseProxyAuthSettings(settingsMock));
+        filter.init(filterConfig);
+        filter.doGetPattern();
+
+        final HttpServletRequest request = mock(HttpServletRequest.class);
+
+        final HttpServletResponse response = mock(HttpServletResponse.class);
+
+        final FilterChain chain = mock(FilterChain.class);
+        filter.doFilter(request, response, chain);
+
+        verify(response).sendRedirect(
+            "/sessions/init/reverseproxyauth");
+
+        filter.destroy();
+    }
+
 }
