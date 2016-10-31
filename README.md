@@ -1,6 +1,8 @@
 Reverse Proxy Authenticator plugin for Sonar
 ============================================
 
+[![Build Status](https://travis-ci.org/trajano/reverse-proxy-auth-sonar-plugin.svg?branch=master)](https://travis-ci.org/trajano/reverse-proxy-auth-sonar-plugin)
+
 This plugin allows delegation of SonarQube authentication to the reverse proxy
 via HTTP Header.  See [Implementation Details][3].
 
