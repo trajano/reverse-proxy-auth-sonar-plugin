@@ -59,13 +59,26 @@ public class ReverseProxyAuthSettings {
     }
 
     /**
-     * Base URL of the server.
+     * This will return the base URL of the server. This will never return
+     * &lt;code&gt;null&lt;/code&gt; but may return an empty string.
      *
-     * @return Base URL of the server.
+     * @return base url
      */
-    public String getBaseUrl() {
+    private String getBaseUrl() {
 
-<span class="fc" id="L68">        return settings.getString(CoreProperties.SERVER_BASE_URL);</span>
+<span class="fc" id="L69">        final String baseUrl = settings.getString(CoreProperties.SERVER_BASE_URL);</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">        if (baseUrl == null) {</span>
+<span class="fc" id="L71">            return &quot;&quot;;</span>
+        }
+<span class="fc" id="L73">        return baseUrl;</span>
+    }
+
+    /**
+     * @return URL to the icon for the authenticator.
+     */
+    public String getIconUrl() {
+
+<span class="fc" id="L81">        return getBaseUrl() + &quot;/static/reverseproxyauth/proxy.png&quot;;</span>
     }
 
     /**
@@ -73,7 +86,7 @@ public class ReverseProxyAuthSettings {
      */
     public String getRedirectBackOrHomeUrl() {
 
-<span class="fc" id="L76">        return settings.getString(CoreProperties.SERVER_BASE_URL) + &quot;/reverseproxyauth/redirect_back_or_home_url&quot;;</span>
+<span class="fc" id="L89">        return getBaseUrl() + &quot;/reverseproxyauth/redirect_back_or_home_url&quot;;</span>
     }
 
     /**
@@ -83,7 +96,7 @@ public class ReverseProxyAuthSettings {
      */
     public String getReverseProxyAuthInitUrl() {
 
-<span class="fc" id="L86">        return settings.getString(CoreProperties.SERVER_BASE_URL) + &quot;/sessions/init/reverseproxyauth&quot;;</span>
+<span class="fc" id="L99">        return getBaseUrl() + &quot;/sessions/init/reverseproxyauth&quot;;</span>
     }
 
     /**
@@ -91,7 +104,7 @@ public class ReverseProxyAuthSettings {
      */
     public String getUnauthorizedUrl() {
 
-<span class="fc" id="L94">        return settings.getString(CoreProperties.SERVER_BASE_URL) + &quot;/sessions/unauthorized&quot;;</span>
+<span class="fc" id="L107">        return getBaseUrl() + &quot;/sessions/unauthorized&quot;;</span>
     }
 
     /**
@@ -104,11 +117,11 @@ public class ReverseProxyAuthSettings {
      */
     public String getUserNameFromHeader(@Nonnull final HttpServletRequest request) {
 
-<span class="fc" id="L107">        final String headerValue = request.getHeader(settings.getString(HEADER_NAME));</span>
-<span class="fc bfc" id="L108" title="All 4 branches covered.">        if (headerValue == null || headerValue.trim().isEmpty()) {</span>
-<span class="fc" id="L109">            return null;</span>
+<span class="fc" id="L120">        final String headerValue = request.getHeader(settings.getString(HEADER_NAME));</span>
+<span class="fc bfc" id="L121" title="All 4 branches covered.">        if (headerValue == null || headerValue.trim().isEmpty()) {</span>
+<span class="fc" id="L122">            return null;</span>
         } else {
-<span class="fc" id="L111">            return headerValue;</span>
+<span class="fc" id="L124">            return headerValue;</span>
         }
     }
 
@@ -121,8 +134,8 @@ public class ReverseProxyAuthSettings {
      */
     public boolean isLocalHost(@Nonnull final ServletRequest request) {
 
-<span class="fc" id="L124">        final String localhostValue = settings.getString(LOCALHOST);</span>
-<span class="fc bfc" id="L125" title="All 4 branches covered.">        return localhostValue != null &amp;&amp; localhostValue.equals(request.getServerName());</span>
+<span class="fc" id="L137">        final String localhostValue = settings.getString(LOCALHOST);</span>
+<span class="fc bfc" id="L138" title="All 4 branches covered.">        return localhostValue != null &amp;&amp; localhostValue.equals(request.getServerName());</span>
     }
 
     /**
@@ -134,7 +147,7 @@ public class ReverseProxyAuthSettings {
      */
     public boolean isRealmReverseProxyAuth() {
 
-<span class="fc" id="L137">        return ReverseProxyAuthPlugin.KEY.equals(settings.getString(CoreProperties.CORE_AUTHENTICATOR_REALM));</span>
+<span class="fc" id="L150">        return ReverseProxyAuthPlugin.KEY.equals(settings.getString(CoreProperties.CORE_AUTHENTICATOR_REALM));</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.7.201606060606</span></div></body></html>
