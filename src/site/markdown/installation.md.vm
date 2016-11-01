@@ -31,3 +31,9 @@ If this occurs on the Maven builds, add the following configuration in the `<plu
         </dependency>
       </dependencies>
     </plugin>
+
+### Debugging
+
+In `sonar.properties`, set the value of `sonar.log.level` to `DEBUG` to show in log when the user name is being evaluated from the header.  See [Server Log Management][1] for more information on how SonarQube deals with logging.
+
+[1]: http://docs.sonarqube.org/display/SONAR/Server+Log+Management

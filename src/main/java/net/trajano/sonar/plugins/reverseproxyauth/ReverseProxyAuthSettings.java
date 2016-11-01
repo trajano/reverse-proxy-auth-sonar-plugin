@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.sonar.api.CoreProperties;
 import org.sonar.api.config.Settings;
 import org.sonar.api.server.ServerSide;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 
 /**
  * Wraps the settings object so it provides a type safe interface rather than
@@ -34,6 +36,8 @@ public class ReverseProxyAuthSettings {
      * {@link javax.servlet.http.HttpServletRequest}.
      */
     public static final String LOCALHOST = "reverseproxyauth.localhost";
+
+    private static final Logger LOGGER = Loggers.get(ReverseProxyAuthSettings.class);
 
     /**
      * Wrapped settings.
@@ -109,7 +113,8 @@ public class ReverseProxyAuthSettings {
 
     /**
      * Gets the user name from the headers of the request. This may return null,
-     * but will never return an empty or blank string.
+     * but will never return an empty or blank string. This will log to DEBUG
+     * the header value.
      *
      * @param request
      *            servlet request
@@ -118,6 +123,8 @@ public class ReverseProxyAuthSettings {
     public String getUserNameFromHeader(@Nonnull final HttpServletRequest request) {
 
         final String headerValue = request.getHeader(settings.getString(HEADER_NAME));
+        LOGGER.debug("RequestHeader {0} {1}", HEADER_NAME, headerValue);
+
         if (headerValue == null || headerValue.trim().isEmpty()) {
             return null;
         } else {
