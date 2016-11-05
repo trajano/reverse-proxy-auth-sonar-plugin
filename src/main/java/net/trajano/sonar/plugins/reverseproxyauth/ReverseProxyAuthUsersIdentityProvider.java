@@ -52,7 +52,7 @@ public class ReverseProxyAuthUsersIdentityProvider implements
     @Override
     public Display getDisplay() {
 
-        return Display.builder().setIconPath(settings.getBaseUrl() + "/static/reverseproxyauth/proxy.png").build();
+        return Display.builder().setIconPath(settings.getIconUrl()).build();
     }
 
     /**

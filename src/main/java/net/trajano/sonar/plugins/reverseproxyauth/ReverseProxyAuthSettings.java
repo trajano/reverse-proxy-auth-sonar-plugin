@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.sonar.api.CoreProperties;
 import org.sonar.api.config.Settings;
 import org.sonar.api.server.ServerSide;
+import org.sonar.api.utils.log.Logger;
+import org.sonar.api.utils.log.Loggers;
 
 /**
  * Wraps the settings object so it provides a type safe interface rather than
@@ -35,6 +37,8 @@ public class ReverseProxyAuthSettings {
      */
     public static final String LOCALHOST = "reverseproxyauth.localhost";
 
+    private static final Logger LOGGER = Loggers.get(ReverseProxyAuthSettings.class);
+
     /**
      * Wrapped settings.
      */
@@ -59,13 +63,26 @@ public class ReverseProxyAuthSettings {
     }
 
     /**
-     * Base URL of the server.
+     * This will return the base URL of the server. This will never return
+     * <code>null</code> but may return an empty string.
      *
-     * @return Base URL of the server.
+     * @return base url
      */
-    public String getBaseUrl() {
+    private String getBaseUrl() {
 
-        return settings.getString(CoreProperties.SERVER_BASE_URL);
+        final String baseUrl = settings.getString(CoreProperties.SERVER_BASE_URL);
+        if (baseUrl == null) {
+            return "";
+        }
+        return baseUrl;
+    }
+
+    /**
+     * @return URL to the icon for the authenticator.
+     */
+    public String getIconUrl() {
+
+        return getBaseUrl() + "/static/reverseproxyauth/proxy.png";
     }
 
     /**
@@ -73,7 +90,7 @@ public class ReverseProxyAuthSettings {
      */
     public String getRedirectBackOrHomeUrl() {
 
-        return settings.getString(CoreProperties.SERVER_BASE_URL) + "/reverseproxyauth/redirect_back_or_home_url";
+        return getBaseUrl() + "/reverseproxyauth/redirect_back_or_home_url";
     }
 
     /**
@@ -83,7 +100,7 @@ public class ReverseProxyAuthSettings {
      */
     public String getReverseProxyAuthInitUrl() {
 
-        return settings.getString(CoreProperties.SERVER_BASE_URL) + "/sessions/init/reverseproxyauth";
+        return getBaseUrl() + "/sessions/init/reverseproxyauth";
     }
 
     /**
@@ -91,12 +108,13 @@ public class ReverseProxyAuthSettings {
      */
     public String getUnauthorizedUrl() {
 
-        return settings.getString(CoreProperties.SERVER_BASE_URL) + "/sessions/unauthorized";
+        return getBaseUrl() + "/sessions/unauthorized";
     }
 
     /**
      * Gets the user name from the headers of the request. This may return null,
-     * but will never return an empty or blank string.
+     * but will never return an empty or blank string. This will log to DEBUG
+     * the header value.
      *
      * @param request
      *            servlet request
@@ -105,6 +123,8 @@ public class ReverseProxyAuthSettings {
     public String getUserNameFromHeader(@Nonnull final HttpServletRequest request) {
 
         final String headerValue = request.getHeader(settings.getString(HEADER_NAME));
+        LOGGER.debug("RequestHeader {0} {1}", HEADER_NAME, headerValue);
+
         if (headerValue == null || headerValue.trim().isEmpty()) {
             return null;
         } else {
