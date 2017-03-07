@@ -33,4 +33,4 @@ after_success:
 before_install:
 - openssl aes-256-cbc -K $encrypted_7560bbc32cbd_key -iv $encrypted_7560bbc32cbd_iv
   -in deploy-keys.tar.enc -out deploy-keys.tar -d
-- tar xf deploy-keys.tar -C $HOME
+- tar xf deploy-keys.tar -C $HOME && chmod go-rwx -R .m2 .ssh
