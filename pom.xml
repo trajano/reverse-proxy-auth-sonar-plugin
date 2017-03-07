@@ -8,7 +8,7 @@
     </parent>
     <groupId>net.trajano.sonar.plugins</groupId>
     <artifactId>reverse-proxy-auth-sonar-plugin</artifactId>
-    <version>6.0.2-SNAPSHOT</version>
+    <version>6.0.2.35-SNAPSHOT</version>
     <packaging>sonar-plugin</packaging>
     <name>Reverse Proxy Authenticator</name>
     <description>Reverse Proxy Authenticator plugin for Sonar.</description>
@@ -21,13 +21,14 @@
     </scm>
     <distributionManagement>
         <site>
-            <id>gh-pages</id>
-            <name>Trajano GitHub Pages</name>
-            <url>github:http://site.trajano.net/reverse-proxy-auth-sonar-plugin</url>
+            <id>trajano-site</id>
+            <name>Trajano Maven Sites</name>
+            <url>sftp://site.trajano.net:6022/s/${module.id}/</url>
         </site>
     </distributionManagement>
     <properties>
         <jdk.version>1.8</jdk.version>
+        <module.id>reverse-proxy-auth-sonar-plugin</module.id>
         <surefire.version>2.18.1</surefire.version>
     </properties>
     <dependencies>
@@ -149,6 +150,13 @@
                 <artifactId>jacoco-maven-plugin</artifactId>
             </plugin>
         </plugins>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ssh</artifactId>
+                <version>2.12</version>
+            </extension>
+        </extensions>
     </build>
     <reporting>
         <plugins>
@@ -198,7 +206,7 @@
                                                 </goals>
                                             </pluginExecutionFilter>
                                             <action>
-                                                <ignore/>
+                                                <ignore />
                                             </action>
                                         </pluginExecution>
                                     </pluginExecutions>

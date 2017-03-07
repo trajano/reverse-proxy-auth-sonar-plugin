@@ -1,11 +1,45 @@
+branches:
+  only:
+  - master
+  - "/^reverse-proxy-auth-sonar-plugin-.+$/"
 language: java
-jdk: oraclejdk8
+jdk:
+- oraclejdk8
 sudo: false
 cache:
-- maven
+  directories:
+  - "$HOME/.m2/repository"
+  - "$HOME/.sonar/cache"
 addons:
+  apt:
+    packages:
+    - graphviz
   sonarqube: true
 env:
   global:
-  - secure: KxYJtEuUsDF6ta23a2rB06YSDX1OSrePanAq+9Uwgu6xAT06G1ew8zMbeli2HQ2j9CvYnFukquf6gedD6rJj2B2tfn8xJsq+bWr/CrlMvSlH+Poj4Ik6b8fCuYLlihrq1jt0QD6GZLhgvhpbofC08WSHD/ePKn21B4KXsCJL0Hc=
-script: mvn clean install sonar:sonar -Dsonar.login=$SONAR_TOKEN
+  - secure: gYebEQVY4X8W9aLkZCLkVgtL8tPmW3MsVartw4Q68DMGGGxQagzMOu/QhfjD0qB4QeTdIP7k5M4ye/Y37d/RZGwr0oNg9EX0h6OKAhhQRRXioO+9eEraSl7fYz7kKYxVnuaoEziFagVLrQvX43bom3F7+sKQBtMixN2V9ip/sLA=
+  - secure: HMB/tw3WtFBms6p1cYm1WFvMX9Owt0QF8Sxdah7LZlQGvD3QWgbrfKu4EcGtrseWwQrhIl7MuhDVUA2M4Rsp5wdQPItJ3R7ZQrNBZpgiqPUCPARltUNuvXNr+QYod8giuPi0okN/93E6iqcQP/4h9MP0EZ3LCEexZFYsYzIfbdc=
+before_install:
+- openssl aes-256-cbc -K $encrypted_7560bbc32cbd_key -iv $encrypted_7560bbc32cbd_iv
+  -in deploy-keys.tar.enc -out deploy-keys.tar -d
+- tar xf deploy-keys.tar -C $HOME && chmod go-rwx -R $HOME/.m2 $HOME/.ssh
+install:
+- mvn dependency:go-offline
+before_script:
+- mvn clean
+script:
+- mvn verify site
+after_success:
+- mvn sonar:sonar
+deploy:
+- provider: script
+  skip_cleanup: true
+  script: mvn deploy site-deploy
+  on:
+    branch: master
+- provider: script
+  skip_cleanup: true
+  script: printf 'scm.tag=%1s\nscm.url=scm:git:https://git@github.com/%2s.git' "${TRAVIS_TAG}"
+    "${TRAVIS_REPO_SLUG}" > release.properties && mvn release:perform
+  on:
+    tags: true
