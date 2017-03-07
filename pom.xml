@@ -8,7 +8,7 @@
     </parent>
     <groupId>net.trajano.sonar.plugins</groupId>
     <artifactId>reverse-proxy-auth-sonar-plugin</artifactId>
-    <version>6.0.2.13-SNAPSHOT</version>
+    <version>6.0.2.13</version>
     <packaging>sonar-plugin</packaging>
     <name>Reverse Proxy Authenticator</name>
     <description>Reverse Proxy Authenticator plugin for Sonar.</description>
@@ -16,18 +16,19 @@
     <scm>
         <connection>scm:git:https://github.com/trajano/reverse-proxy-auth-sonar-plugin</connection>
         <developerConnection>scm:git:ssh://git@github.com/trajano/reverse-proxy-auth-sonar-plugin.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>reverse-proxy-auth-sonar-plugin-6.0.2.13</tag>
         <url>https://github.com/trajano/reverse-proxy-auth-sonar-plugin</url>
     </scm>
-    <distributionManagement>        <site>
-		                <id>trajano-site</id>
-				            <name>Trajano Maven Sites</name>
-					                <url>sftp://site.trajano.net:6022/s/${module.id}/</url>
-							        </site>
+    <distributionManagement>
+        <site>
+            <id>trajano-site</id>
+            <name>Trajano Maven Sites</name>
+            <url>sftp://site.trajano.net:6022/s/${module.id}/</url>
+        </site>
     </distributionManagement>
     <properties>
-	    <module.id>reverse-proxy-auth-sonar-plugin</module.id>
         <jdk.version>1.8</jdk.version>
+        <module.id>reverse-proxy-auth-sonar-plugin</module.id>
         <surefire.version>2.18.1</surefire.version>
     </properties>
     <dependencies>
@@ -148,14 +149,14 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
             </plugin>
-    </plugins>
-    <extensions>
-	                <extension>
-				                <groupId>org.apache.maven.wagon</groupId>
-						                <artifactId>wagon-ssh</artifactId>
-								                <version>2.12</version>
-										            </extension>
-										    </extensions>
+        </plugins>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ssh</artifactId>
+                <version>2.12</version>
+            </extension>
+        </extensions>
     </build>
     <reporting>
         <plugins>
@@ -205,7 +206,7 @@
                                                 </goals>
                                             </pluginExecutionFilter>
                                             <action>
-                                                <ignore />
+                                                <ignore/>
                                             </action>
                                         </pluginExecution>
                                     </pluginExecutions>
