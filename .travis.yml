@@ -29,8 +29,13 @@ script:
 - if [ ! ${TRAVIS_TAG} ]; then mvn install site ; else mvn release:perform ; fi
 after_success:
 - mvn sonar:sonar
-- if [[ ! $TRAVIS_PULL_REQUEST =~ ^[0-9]+$ ]]; then mvn deploy site-deploy ; fi
 before_install:
 - openssl aes-256-cbc -K $encrypted_7560bbc32cbd_key -iv $encrypted_7560bbc32cbd_iv
   -in deploy-keys.tar.enc -out deploy-keys.tar -d
 - tar xf deploy-keys.tar -C $HOME && chmod go-rwx -R .m2 .ssh
+deploy:
+- provider: script
+  script: mvn deploy site-deploy
+  on: 
+    branch: master
+
