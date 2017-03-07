@@ -19,12 +19,11 @@
         <tag>HEAD</tag>
         <url>https://github.com/trajano/reverse-proxy-auth-sonar-plugin</url>
     </scm>
-    <distributionManagement>
-        <site>
-            <id>gh-pages</id>
-            <name>Trajano GitHub Pages</name>
-            <url>github:http://site.trajano.net/reverse-proxy-auth-sonar-plugin</url>
-        </site>
+    <distributionManagement>        <site>
+		                <id>trajano-site</id>
+				            <name>Trajano Maven Sites</name>
+					                <url>sftp://site.trajano.net:6022/s/${module.id}/</url>
+							        </site>
     </distributionManagement>
     <properties>
         <jdk.version>1.8</jdk.version>
@@ -148,7 +147,14 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
             </plugin>
-        </plugins>
+    </plugins>
+    <extensions>
+	                <extension>
+				                <groupId>org.apache.maven.wagon</groupId>
+						                <artifactId>wagon-ssh</artifactId>
+								                <version>2.12</version>
+										            </extension>
+										    </extensions>
     </build>
     <reporting>
         <plugins>
