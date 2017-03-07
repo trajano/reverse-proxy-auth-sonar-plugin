@@ -26,6 +26,7 @@
 							        </site>
     </distributionManagement>
     <properties>
+	    <module.id>reverse-proxy-auth-sonar-plugin</module.id>
         <jdk.version>1.8</jdk.version>
         <surefire.version>2.18.1</surefire.version>
     </properties>
