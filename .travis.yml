@@ -22,7 +22,7 @@ env:
 before_install:
 - openssl aes-256-cbc -K $encrypted_7560bbc32cbd_key -iv $encrypted_7560bbc32cbd_iv
   -in deploy-keys.tar.enc -out deploy-keys.tar -d
-- tar xf deploy-keys.tar -C $HOME && chmod go-rwx -R .m2 .ssh
+- tar xf deploy-keys.tar -C $HOME && chmod go-rwx -R $HOME/.m2 $HOME/.ssh
 install:
 - mvn dependency:go-offline
 before_script:
