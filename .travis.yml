@@ -1,11 +1,34 @@
+branches:
+  only:
+  - master
 language: java
-jdk: oraclejdk8
+jdk:
+- oraclejdk8
 sudo: false
 cache:
-- maven
+  directories:
+  - "$HOME/.m2"
+  - "$HOME/.sonar/cache"
 addons:
+  apt:
+    packages:
+    - graphviz
   sonarqube: true
 env:
   global:
-  - secure: KxYJtEuUsDF6ta23a2rB06YSDX1OSrePanAq+9Uwgu6xAT06G1ew8zMbeli2HQ2j9CvYnFukquf6gedD6rJj2B2tfn8xJsq+bWr/CrlMvSlH+Poj4Ik6b8fCuYLlihrq1jt0QD6GZLhgvhpbofC08WSHD/ePKn21B4KXsCJL0Hc=
-script: mvn clean install sonar:sonar -Dsonar.login=$SONAR_TOKEN
+  - secure: pI0+f18LW15cjtGZK9/Hfb6xd9Hzalf/FMWVh0xJ7BEpfaZ6v/cCREJUhr4KBVY3wv+VIgmOD8/gmJvIID15bi/p1bLTxlVSHG4PJa64w4WTQED0SqZXij/qaLoDaDQd5+zL7v8Wq7GpqZCuHIdOgiHTSBGHoVlYkirvBBxbesk=
+  - secure: WZwHwifyIrOFWA06HU18+n5momE68IZaW5YEKzKgznVT8rU4wOYDS7QvWJShATGyqGGc4stsVFigCOo4fe1zCw0WQpo9qu1R5zlw2jatLuTWj/BOjhA6JVr133MN4EmueiPvZqKI5icBz3UNxA42Fxzo4ku1til+0jpwI6QlkoI=
+install:
+- set
+- mvn dependency:go-offline
+before_script:
+- mvn clean
+script:
+- mvn install site
+after_success:
+- mvn sonar:sonar
+- if [[ ! $TRAVIS_PULL_REQUEST =~ ^[0-9]+$ ]]; then mvn deploy site-deploy ; fi
+before_install:
+- openssl aes-256-cbc -K $encrypted_65553d4eaa33_key -iv $encrypted_65553d4eaa33_iv
+  -in deploy-keys.tar.enc -out deploy-keys.tar -d
+- tar xf deploy-keys.tar -C $HOME
