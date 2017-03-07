@@ -39,9 +39,6 @@ deploy:
     branch: master
 - provider: script
   skip_cleanup: true
-  script:
-  - echo scm.tag=${TRAVIS_TAG} > release.properties
-  - echo scm:git:https://github.com/${TRAVIS_REPO_SLUG} >> release.properties
-  - mvn release:perform
+  script: mvn release:perform -DconnectionUrl=scm:git:https://github.com/${TRAVIS_REPO_SLUG}
   on:
     tags: true
