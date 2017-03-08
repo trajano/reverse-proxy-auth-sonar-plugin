@@ -8,7 +8,7 @@
     </parent>
     <groupId>net.trajano.sonar.plugins</groupId>
     <artifactId>reverse-proxy-auth-sonar-plugin</artifactId>
-    <version>6.0.2.36-SNAPSHOT</version>
+    <version>6.0.2.52</version>
     <packaging>sonar-plugin</packaging>
     <name>Reverse Proxy Authenticator</name>
     <description>Reverse Proxy Authenticator plugin for Sonar.</description>
@@ -16,7 +16,7 @@
     <scm>
         <connection>scm:git:https://github.com/trajano/reverse-proxy-auth-sonar-plugin</connection>
         <developerConnection>scm:git:https://github.com/trajano/reverse-proxy-auth-sonar-plugin.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>reverse-proxy-auth-sonar-plugin-6.0.2.52</tag>
         <url>https://github.com/trajano/reverse-proxy-auth-sonar-plugin</url>
     </scm>
     <distributionManagement>
@@ -98,6 +98,14 @@
                     </executions>
                 </plugin>
                 <plugin>
+                    <artifactId>maven-scm-plugin</artifactId>
+                    <configuration>
+                        <providerImplementations>
+                            <git>jgit</git>
+                        </providerImplementations>
+                    </configuration>
+                </plugin>
+                <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>${surefire.version}</version>
                 </plugin>
@@ -114,18 +122,13 @@
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>findbugs-maven-plugin</artifactId>
                     <version>3.0.4</version>
-	    </plugin>
-	                    <plugin>
-				                        <artifactId>maven-scm-plugin</artifactId> <configuration> <providerImplementations> <git>jgit</git> </providerImplementations> </configuration>
-																																																	                    </plugin>
-
+                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-	</plugin>
-
+            </plugin>
             <plugin>
                 <artifactId>maven-jar-plugin</artifactId>
             </plugin>
@@ -211,7 +214,7 @@
                                                 </goals>
                                             </pluginExecutionFilter>
                                             <action>
-                                                <ignore />
+                                                <ignore/>
                                             </action>
                                         </pluginExecution>
                                     </pluginExecutions>
