@@ -15,7 +15,7 @@
     <url>http://site.trajano.net/reverse-proxy-auth-sonar-plugin</url>
     <scm>
         <connection>scm:git:https://github.com/trajano/reverse-proxy-auth-sonar-plugin</connection>
-        <developerConnection>scm:git:ssh://git@github.com/trajano/reverse-proxy-auth-sonar-plugin.git</developerConnection>
+        <developerConnection>scm:git:https://github.com/trajano/reverse-proxy-auth-sonar-plugin.git</developerConnection>
         <tag>HEAD</tag>
         <url>https://github.com/trajano/reverse-proxy-auth-sonar-plugin</url>
     </scm>
@@ -114,13 +114,18 @@
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>findbugs-maven-plugin</artifactId>
                     <version>3.0.4</version>
-                </plugin>
+	    </plugin>
+	                    <plugin>
+				                        <artifactId>maven-scm-plugin</artifactId> <configuration> <providerImplementations> <git>jgit</git> </providerImplementations> </configuration>
+																																																	                    </plugin>
+
             </plugins>
         </pluginManagement>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-            </plugin>
+	</plugin>
+
             <plugin>
                 <artifactId>maven-jar-plugin</artifactId>
             </plugin>

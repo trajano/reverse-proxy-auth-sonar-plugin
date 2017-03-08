@@ -1,0 +1,12 @@
+architect:
+- trajano
+docker:
+  image: "maven:latest"
+decrypt:
+  deploy-keys.tar : "repo/deploy-keys.tar.asc"
+install:
+- tar xf ../deploy-keys.tar -C $HOME
+release:
+  script:
+  - ls -l $HOME/.m2/
+  - mvn --batch-mode release:prepare -DreleaseVersion=${tag}
