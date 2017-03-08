@@ -28,7 +28,7 @@ install:
 before_script:
 - mvn clean
 script:
-- mvn install site
+- mvn verify site
 after_success:
 - mvn sonar:sonar
 - echo scm.tag=${TRAVIS_TAG} > release.properties
@@ -41,6 +41,6 @@ deploy:
     branch: master
 - provider: script
   skip_cleanup: true
-  script: mvn release:perform -DconnectionUrl="${TRAVIS_TAG} scm:git:ssh:git://github.com/${TRAVIS_REPO_SLUG}"
+  script: mvn release:perform
   on:
     tags: true
