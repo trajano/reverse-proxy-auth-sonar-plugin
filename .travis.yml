@@ -39,6 +39,6 @@ deploy:
     branch: master
 - provider: script
   skip_cleanup: true
-  script: printf 'scm.tag=%1%nscm.url=%2s' "${TRAVIS_TAG}" "${TRAVIS_REPO_SLUG}" > release.properties && cat release.properties && ls && mvn release:perform
+  script: mvn release:perform -DlocalCheckout=true
   on:
     tags: true
