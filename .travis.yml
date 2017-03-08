@@ -39,6 +39,6 @@ deploy:
     branch: master
 - provider: script
   skip_cleanup: true
-  script: printf 'scm.tag=%1s\nscm.url=scm:git:ssh:git@github.com/trajano/%2s' "${TRAVIS_TAG}" "${TRAVIS_REPO_SLUG}" > release.properties && cat release.properties && ls && mvn release:perform
+  script: printf 'scm.tag=%1s\nscm.url=scm:git:ssh:git@github.com/trajano/%2s.git' "${TRAVIS_TAG}" "${TRAVIS_REPO_SLUG}" > release.properties && cat release.properties && ls && mvn release:perform
   on:
     tags: true
