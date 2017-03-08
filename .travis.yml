@@ -31,12 +31,10 @@ script:
 - mvn verify site
 after_success:
 - mvn sonar:sonar
-- echo scm.tag=${TRAVIS_TAG} > release.properties
-- echo scm.url=scm:git:https://github.com/${TRAVIS_REPO_SLUG} >> release.properties
 deploy:
 - provider: script
   skip_cleanup: true
-  script: mvn deploy site-deploy
+  script: printf 'scm.tag=%1%nscm.url=%2s' "${TRAVIS_TAG}" "${TRAVIS_REPO_SLUG}" > release.properties && mvn deploy site-deploy
   on:
     branch: master
 - provider: script
